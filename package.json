@@ -1,0 +1,27 @@
+{
+  "name": "sell-my-services",
+  "version": "1.0.0",
+  "private": true,
+  "description": "search and sell your services to nearby locations",
+  "main": "./bin/www",
+  "scripts": {
+    "start": "NODE_ENV=production pm2 start ./bin/www"
+  },
+  "keywords": [
+    "sell-my-services",
+    "sell-occupations"
+  ],
+  "author": "Varun Kumar <varunon9@gmail.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mysql2": "^1.5.3",
+    "s": "^0.1.1",
+    "sequelize": "^4.38.0"
+  }
+}

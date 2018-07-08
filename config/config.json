@@ -1,0 +1,28 @@
+{
+    "development": {
+        "username": "root",
+        "password": "L1fe_c00l",
+        "database": "sellMyServices",
+        "host": "localhost",
+        "dialect": "mysql",
+        "operatorsAliases": {
+            "$and": "Op.and",
+            "$or": "Op.or",
+            "$eq": "Op.eq",
+            "$gt": "Op.gt",
+            "$lt": "Op.lt",
+            "$lte": "Op.lte",
+            "$like": "Op.like"
+        },
+        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@"
+    },
+    "production": {
+        "username": "root",
+        "password": "L1fe_c00l",
+        "database": "sellMyServices",
+        "host": "localhost",
+        "dialect": "mysql",
+        "logging": false,
+        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@"
+    }
+}
