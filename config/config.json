@@ -5,16 +5,9 @@
         "database": "sellMyServices",
         "host": "localhost",
         "dialect": "mysql",
-        "operatorsAliases": {
-            "$and": "Op.and",
-            "$or": "Op.or",
-            "$eq": "Op.eq",
-            "$gt": "Op.gt",
-            "$lt": "Op.lt",
-            "$lte": "Op.lte",
-            "$like": "Op.like"
-        },
-        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@"
+        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@",
+        "latitudeThreshold": 0.3,
+        "longitudeThreshold": 0.3
     },
     "production": {
         "username": "root",
@@ -23,6 +16,8 @@
         "host": "localhost",
         "dialect": "mysql",
         "logging": false,
-        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@"
+        "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@",
+        "latitudeThreshold": 0.3,
+        "longitudeThreshold": 0.3
     }
 }

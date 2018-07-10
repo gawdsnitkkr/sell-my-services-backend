@@ -16,6 +16,7 @@ const config = require('./config/config.json')[env];
  * Get all routes here
  */
 const indexRoutes = require('./routes/index');
+const searchRoutes = require('./routes/search');
 
 const app = express();
 
@@ -41,14 +42,16 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // logging POST Requests and parameters
 app.use(function(req, res, next) {
     if (req.method == 'POST') {
-        const ipAddress = req.headers['x-forwarded-for'].split(',').pop()
+        const ipAddress = (
+                    req.headers['x-forwarded-for'] 
+                            && req.headers['x-forwarded-for'].split(',').pop())
                 || req.connection.remoteAddress
                 || req.socket.remoteAddress
                 || req.connection.socket.remoteAddress;
         console.log('POST IPAddress: ', ipAddress);
-        console.log('POST: ', '\x1b[36m%s\x1b[0m', 'Request URL:', req.originalUrl);
+        console.log('\x1b[36m%s\x1b[0m', 'Request URL:', req.originalUrl);
         console.log('POST: ', req.body);
-        console.log('POST: ', '\x1b[33m%s\x1b[0m', '-----------------------------');
+        console.log('\x1b[33m%s\x1b[0m', '-----------------------------');
 
         // todo: save these info to database (along with createdAt)
     }
@@ -59,6 +62,7 @@ app.use(function(req, res, next) {
  * Set all routes here, orders are important
  */
 app.use('/', indexRoutes);
+app.use('/search', searchRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

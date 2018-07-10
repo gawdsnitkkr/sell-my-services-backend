@@ -1,3 +1,8 @@
+/**
+ * Created by: Varun kumar
+ * Date: 08 July, 2018
+ */
+ 
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 const env = process.env.NODE_ENV || 'development';
@@ -5,7 +10,7 @@ const config = require('../config/config.json')[env];
 
 module.exports = {
 
-    getToken: function(user) {
+    getToken: (user) => {
         let expiresIn = 2 * 60 * 60 // expires in 2 hours
         if (user.keepMeLoggedIn) {
             expiresIn = 7 * 24 * 60 * 60 // expires in 7 days
@@ -23,10 +28,17 @@ module.exports = {
         return token;
     },
 
-    isInt: function(value) {
-        return !isNaN(value) 
+    isInt: (value) => (
+        !isNaN(value) 
                 && (parseInt(Number(value)) == value) 
-                && (!isNaN(parseInt(value, 10)));
+                && (!isNaN(parseInt(value, 10)))
+    ),
+
+    swapValues: (arr) => {
+        let temp = arr[0];
+        arr[0] = arr[1];
+        arr[1] = temp;
+        return arr;
     }
 
 };

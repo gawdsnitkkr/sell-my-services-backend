@@ -1,3 +1,10 @@
+/**
+ * Created by: Varun kumar
+ * Date: 08 July, 2018
+ *
+ * A seller is the entity who sell his services through SellMyService app
+ */
+
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
@@ -13,7 +20,7 @@ module.exports = {
             if (!params.email || !params.password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchUserExist(params.email)
+                validationService.doesSuchSellerExist(params.email)
                     .then(result => {
                         if (result) {
                             reject('This email has been used. Try Login');
@@ -33,19 +40,19 @@ module.exports = {
                             });             
                         }
                     }).catch(err => {
-                        console.error('User validation error', err);
+                        console.error('Seller validation error', err);
                         reject('Server side error');
                     });
             }
         });
     },
 
-    loginUser: function(params) {
+    loginSeller: function(params) {
         return new Promise((resolve, reject) => {
             if (!params.email || !params.password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchUserExist(params.email)
+                validationService.doesSuchSellerExist(params.email)
                     .then(result => {
                         if (result) {
                             models.user.findOne({
@@ -70,22 +77,22 @@ module.exports = {
                                 reject('Server side Error');
                             })
                         } else {
-                            reject('User does not exist');
+                            reject('Seller does not exist');
                         }
                     }).catch(err => {
-                        console.error('User validation error', err);
+                        console.error('Seller validation error', err);
                         reject('Server side error');
                     });
             }
         });
     },
 
-    getUser: function(params) {
+    getSeller: function(params) {
         return new Promise((resolve, reject) => {
             if (!params.email) {
                 reject('Invalid Request');
             } else {
-                validationService.doesSuchUserExist(params.email)
+                validationService.doesSuchSellerExist(params.email)
                     .then(result => {
                         if (result) {
                             models.user.findOne({
@@ -100,17 +107,17 @@ module.exports = {
                                 reject('Server side Error');
                             })
                         } else {
-                            reject('User does not exist');
+                            reject('Seller does not exist');
                         }
                     }).catch(err => {
-                        console.error('User validation error', err);
+                        console.error('Seller validation error', err);
                         reject('Server side error');
                     });
             }
         });
     },
 
-    updateUser: function(params) {
+    updateSeller: function(params) {
         return new Promise((resolve, reject) => {
             if (!params.email) {
                 reject('Missing Params');
@@ -125,14 +132,14 @@ module.exports = {
                             .then(user => {
                                 resolve(user.dataValues);
                             }).catch(err => {
-                                console.error('Error occured at saveUser', err);
+                                console.error('Error occured at saveSeller', err);
                                 reject('Server side error');
                             });
                     } else {
-                        reject('No such User exist');
+                        reject('No such Seller exist');
                     }
                 }).catch(err => {
-                    console.error('Error occured at saveUser', err);
+                    console.error('Error occured at saveSeller', err);
                     reject('Server side error');
                 });
             }
