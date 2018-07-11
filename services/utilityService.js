@@ -5,6 +5,8 @@
  
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
+const models = require('../models');
+
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
@@ -39,6 +41,14 @@ module.exports = {
         arr[0] = arr[1];
         arr[1] = temp;
         return arr;
+    },
+
+    saveRequestLog: (params) => {
+        models.requestLog.create(params).then((log) => {
+            console.log('INFO Request log added');
+        }).catch((err) => {
+            console.error('Error saveRequestLog', err);
+        });
     }
 
 };

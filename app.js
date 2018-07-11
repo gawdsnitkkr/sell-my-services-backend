@@ -17,6 +17,11 @@ const config = require('./config/config.json')[env];
  */
 const indexRoutes = require('./routes/index');
 const searchRoutes = require('./routes/search');
+const sellerRoutes = require('./routes/seller');
+const authRoutes = require('./routes/auth');
+
+// middleware
+const middleware = require('./middlewares');
 
 const app = express();
 
@@ -36,33 +41,18 @@ app.use(bodyParser.urlencoded({
 
 app.use(cookieParser());
 
-// set all routes here
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-// logging POST Requests and parameters
-app.use(function(req, res, next) {
-    if (req.method == 'POST') {
-        const ipAddress = (
-                    req.headers['x-forwarded-for'] 
-                            && req.headers['x-forwarded-for'].split(',').pop())
-                || req.connection.remoteAddress
-                || req.socket.remoteAddress
-                || req.connection.socket.remoteAddress;
-        console.log('POST IPAddress: ', ipAddress);
-        console.log('\x1b[36m%s\x1b[0m', 'Request URL:', req.originalUrl);
-        console.log('POST: ', req.body);
-        console.log('\x1b[33m%s\x1b[0m', '-----------------------------');
-
-        // todo: save these info to database (along with createdAt)
-    }
-    next();
-});
+// app level middleware- logging POST Requests and parameters
+app.use(middleware.logRequest);
 
 /**
  * Set all routes here, orders are important
  */
 app.use('/', indexRoutes);
 app.use('/search', searchRoutes);
+app.use('/seller', sellerRoutes);
+app.use('/auth', authRoutes); // token authentication in routes
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
