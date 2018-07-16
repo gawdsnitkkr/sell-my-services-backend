@@ -7,26 +7,16 @@ const models = require('../models');
 
 module.exports = {
 
-	doesSuchUserExist: function(param) {
+	doesSuchSellerExist: function(param) {
 		return new Promise((resolve, reject) => {
-			let condition = {
-				mobile: param
+			const condition = {
+				email: param.email
 			};
-
-			if (param.indexOf('@') > 0) {
-				condition = {
-					email: param
-				}
-			} else if (param.length != 10) {
-				condition = {
-					id: param
-				}
-			}
 			
-			models.user.findOne({
+			models.seller.findOne({
 				where: condition
-			}).then((user) => {
-			    if (user) {
+			}).then((seller) => {
+			    if (seller) {
 			    	resolve(true);
 			    } else {
 			    	resolve(false);

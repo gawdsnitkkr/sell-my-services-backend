@@ -45,7 +45,7 @@ module.exports = {
 
     saveRequestLog: (params) => {
         models.requestLog.create(params).then((log) => {
-            console.log('INFO Request log added');
+            console.log('Info Request log added');
         }).catch((err) => {
             console.error('Error saveRequestLog', err);
         });

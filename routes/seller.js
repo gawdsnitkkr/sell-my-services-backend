@@ -14,7 +14,6 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-    res.render('index');
 });
 
 module.exports = router;

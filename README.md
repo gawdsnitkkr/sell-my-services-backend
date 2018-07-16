@@ -38,4 +38,4 @@ search and sell your services to nearby locations
 1. Save all post requests to requestLogs table
 2. If error in routes files is object (caused by sequelize) then it must be logged
 3. All the service controllers must be logged
-4. Error logs must start with text 'Error' followed by function name and followed by error.
+4. Error logs must start with text 'Error' followed by function name, file name and error detail.

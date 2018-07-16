@@ -17,70 +17,88 @@ module.exports = {
 
     signup: function(params) {
         return new Promise((resolve, reject) => {
-            if (!params.email || !params.password) {
+            if (!params.email || !params.latitude
+                    || !params.longitude
+                    || !params.password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchSellerExist(params.email)
+                validationService.doesSuchSellerExist(params)
                     .then(result => {
                         if (result) {
                             reject('This email has been used. Try Login');
                         } else { 
                             bcrypt.hash(params.password, 2).then((hash) => {
                                 params.password = hash;
-                                // insert user info to db
-                                models.user.create(params).then(user => {
-                                    resolve(user.dataValues);
+                                // insert seller info to db
+                                models.seller.create(params).then(seller => {
+                                    resolve(seller.dataValues);
                                 }).catch((err) => {
-                                    console.error('Error occured while creating user:', err);
+                                    console.error(
+                                        'Error signup sellerService:', err
+                                    );
                                     reject('Server side error');
                                 });
                             }).catch((err) => {
-                                console.error('Error encrypting password', err);
+                                const errorMessage = 'Error signup '
+                                        + 'sellerService encrypting password';
+                                console.error(errorMessage, err);
                                 reject('Server side error');
                             });             
                         }
                     }).catch(err => {
-                        console.error('Seller validation error', err);
+                        console.error(
+                            'Error signup sellerService validation', err
+                        );
                         reject('Server side error');
                     });
             }
         });
     },
 
-    loginSeller: function(params) {
+    login: function(params) {
         return new Promise((resolve, reject) => {
             if (!params.email || !params.password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchSellerExist(params.email)
+                validationService.doesSuchSellerExist(params)
                     .then(result => {
                         if (result) {
-                            models.user.findOne({
+                            models.seller.findOne({
                                 where: {
                                     email: params.email
                                 }
-                            }).then(user => {
-                                if (user) {
-                                    bcrypt.compare(params.password, user.dataValues.password)
-                                        .then(function(res) {
-                                            if (res == true) {
-                                                resolve(user.dataValues);
-                                            } else {
-                                                reject('Password mismatch');
-                                            }
+                            }).then(seller => {
+                                if (seller) {
+                                    bcrypt.compare(
+                                        params.password, 
+                                        seller.dataValues.password
+                                    ).then((res) => {
+                                        if (res == true) {
+                                            resolve(seller.dataValues);
+                                        } else {
+                                            reject('Password mismatch');
+                                        }
                                     }).catch((err) => {
-                                        console.error('Error decrypting password', err);
+                                        const errorMessage = 'Error login '
+                                                + 'sellerService decrypting '
+                                                + 'password';
+                                        console.error(errorMessage, err);
                                         reject('Server side error');
                                     });
                                 }
                             }).catch(err => {
+                                console.error(
+                                    'Error login sellerService:', err
+                                );
                                 reject('Server side Error');
                             })
                         } else {
                             reject('Seller does not exist');
                         }
                     }).catch(err => {
-                        console.error('Seller validation error', err);
+                        console.error(
+                            'Error login sellerService validation', err
+                        );
                         reject('Server side error');
                     });
             }
@@ -95,22 +113,27 @@ module.exports = {
                 validationService.doesSuchSellerExist(params.email)
                     .then(result => {
                         if (result) {
-                            models.user.findOne({
+                            models.seller.findOne({
                                 where: {
                                     email: params.email
                                 }
-                            }).then(user => {
-                                if (user) {
-                                    resolve(user.dataValues);
+                            }).then(seller => {
+                                if (seller) {
+                                    resolve(seller.dataValues);
                                 }
                             }).catch(err => {
+                                console.error(
+                                    'Error getSeller sellerService:', err
+                                );
                                 reject('Server side Error');
                             })
                         } else {
                             reject('Seller does not exist');
                         }
                     }).catch(err => {
-                        console.error('Seller validation error', err);
+                        console.error(
+                            'Error getSeller sellerService validation', err
+                        );
                         reject('Server side error');
                     });
             }
@@ -122,24 +145,28 @@ module.exports = {
             if (!params.email) {
                 reject('Missing Params');
             } else {
-                models.user.findOne({
+                models.seller.findOne({
                     where: {
                         email: params.email
                     }
-                }).then(user => {
-                    if (user) {
-                        user.updateAttributes(params)
-                            .then(user => {
-                                resolve(user.dataValues);
+                }).then(seller => {
+                    if (seller) {
+                        seller.updateAttributes(params)
+                            .then(seller => {
+                                resolve(seller.dataValues);
                             }).catch(err => {
-                                console.error('Error occured at saveSeller', err);
+                                console.error(
+                                    'Error updateSeller sellerService', err
+                                );
                                 reject('Server side error');
                             });
                     } else {
                         reject('No such Seller exist');
                     }
                 }).catch(err => {
-                    console.error('Error occured at saveSeller', err);
+                    console.error(
+                        'Error updateSeller sellerService findOne', err
+                    );
                     reject('Server side error');
                 });
             }
