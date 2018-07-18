@@ -16,7 +16,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
 
-router.post('/sellers', (req, res, next) => {
+router.post('/sellers', (req, res) => {
 	const params = req.body;
 	searchService.searchSellers(params)
 		.then(sellers => { 
@@ -25,8 +25,8 @@ router.post('/sellers', (req, res, next) => {
 				result: sellers
 			});
 		}).catch(err => {
-			if (typeof(a) != 'string') {
-				console.error('Error /sellers', err);
+			if (typeof(err) != 'string') {
+				console.error('Error /search/sellers', err);
 				err = 'Server side error';
 			}
 			res.json({

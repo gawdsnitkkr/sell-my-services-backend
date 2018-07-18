@@ -7,7 +7,9 @@
         "dialect": "mysql",
         "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@",
         "latitudeThreshold": 0.3,
-        "longitudeThreshold": 0.3
+        "longitudeThreshold": 0.3,
+        "tokenMaxAge": 2592000,
+        "tokenName": "authToken"
     },
     "production": {
         "username": "root",
@@ -18,6 +20,8 @@
         "logging": false,
         "superSecret": "$3llMy$3rvic3$_SUPER_secret_0*##@",
         "latitudeThreshold": 0.3,
-        "longitudeThreshold": 0.3
+        "longitudeThreshold": 0.3,
+        "tokenMaxAge": 2592000,
+        "tokenName": "authToken"
     }
 }

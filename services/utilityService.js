@@ -12,18 +12,15 @@ const config = require('../config/config.json')[env];
 
 module.exports = {
 
-    getToken: (user) => {
-        let expiresIn = 2 * 60 * 60 // expires in 2 hours
-        if (user.keepMeLoggedIn) {
-            expiresIn = 7 * 24 * 60 * 60 // expires in 7 days
-        }
+    getToken: (params) => {
+        const expiresIn = config.tokenMaxAge // 30 days (30 * 24 * 60 * 60)
 
         // create a token
         const token = jwt.sign({
-            mobile: user.mobile,
-            name: user.name,
-            id: user.id,
-            email: user.email
+            mobile: params.mobile,
+            name: params.name,
+            id: params.id,
+            email: params.email
         }, config.superSecret, {
             expiresIn: expiresIn
         });
@@ -32,7 +29,7 @@ module.exports = {
 
     isInt: (value) => (
         !isNaN(value) 
-                && (parseInt(Number(value)) == value) 
+                && (parseInt(Number(value)) === value) 
                 && (!isNaN(parseInt(value, 10)))
     ),
 

@@ -41,8 +41,10 @@ module.exports = {
     },
 
 	verifyToken: function(req, res, next) {
+		const tokenName = config.tokenName;
+		
 		// get token from cookies
-		const token = req.cookies.jwtToken;
+		const token = req.cookies[tokenName];
 		
 		if (token) {
 
@@ -50,24 +52,28 @@ module.exports = {
 		    jwt.verify(token, config.superSecret, function(err, decoded) {      
 		        if (err) {
 		            //console.error(err);
-		            return res.send(
-						'<p>Failed to authenticate token. '
-						        + 'Click <a href="logout">Logout</a></p>'
-					);    
+		            res.json({
+		            	success: false,
+		            	message: 'Failed to authenticate',
+		            	loginRequired: true
+		            });    
 		        } else {
 
-		            // check if email is present
-		            if (!decoded.email) {
-		                res.redirect('/login');
-		            } else {
-		                // if everything is good, save to request for use in other routes
-		                req.decoded = decoded; 
-		                next();
-		            }
+		            // if everything is good, save to request for use in other routes
+		            req.decoded = decoded; 
+
+		            // so that entity can perform database operations (RUD) 
+		            // only on his data
+		            req.body.email = decoded.email;
+		            next();
 		        }
 		    });
 		} else {
-		    res.redirect('/login');
+		    res.json({
+		    	success: false,
+		    	message: 'Please login again',
+		    	loginRequired: true
+		    });
 		}
 	}
 }

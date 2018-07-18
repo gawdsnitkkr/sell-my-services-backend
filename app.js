@@ -21,7 +21,7 @@ const sellerRoutes = require('./routes/seller');
 const authRoutes = require('./routes/auth');
 
 // middleware
-const middleware = require('./middlewares');
+const middlewares = require('./middlewares');
 
 const app = express();
 
@@ -44,7 +44,7 @@ app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 // app level middleware- logging POST Requests and parameters
-app.use(middleware.logRequest);
+app.use(middlewares.logRequest);
 
 /**
  * Set all routes here, orders are important

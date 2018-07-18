@@ -63,35 +63,23 @@ module.exports = {
                 validationService.doesSuchSellerExist(params)
                     .then(result => {
                         if (result) {
-                            models.seller.findOne({
-                                where: {
-                                    email: params.email
+                            const seller = result;
+                            bcrypt.compare(
+                                params.password, 
+                                seller.dataValues.password
+                            ).then((res) => {
+                                if (res === true) {
+                                    resolve(seller.dataValues);
+                                } else {
+                                    reject('Password mismatch');
                                 }
-                            }).then(seller => {
-                                if (seller) {
-                                    bcrypt.compare(
-                                        params.password, 
-                                        seller.dataValues.password
-                                    ).then((res) => {
-                                        if (res == true) {
-                                            resolve(seller.dataValues);
-                                        } else {
-                                            reject('Password mismatch');
-                                        }
-                                    }).catch((err) => {
-                                        const errorMessage = 'Error login '
-                                                + 'sellerService decrypting '
-                                                + 'password';
-                                        console.error(errorMessage, err);
-                                        reject('Server side error');
-                                    });
-                                }
-                            }).catch(err => {
-                                console.error(
-                                    'Error login sellerService:', err
-                                );
-                                reject('Server side Error');
-                            })
+                            }).catch((err) => {
+                                const errorMessage = 'Error login '
+                                        + 'sellerService decrypting '
+                                        + 'password';
+                                console.error(errorMessage, err);
+                                reject('Server side error');
+                            });
                         } else {
                             reject('Seller does not exist');
                         }
@@ -113,20 +101,8 @@ module.exports = {
                 validationService.doesSuchSellerExist(params.email)
                     .then(result => {
                         if (result) {
-                            models.seller.findOne({
-                                where: {
-                                    email: params.email
-                                }
-                            }).then(seller => {
-                                if (seller) {
-                                    resolve(seller.dataValues);
-                                }
-                            }).catch(err => {
-                                console.error(
-                                    'Error getSeller sellerService:', err
-                                );
-                                reject('Server side Error');
-                            })
+                            const seller = result;
+                            resolve(seller.dataValues);
                         } else {
                             reject('Seller does not exist');
                         }
@@ -169,6 +145,55 @@ module.exports = {
                     );
                     reject('Server side error');
                 });
+            }
+        });
+    },
+
+    addService: function(params) {
+        return new Promise((resolve, reject) => {
+            if (!params.name || !params.sellerId) {
+                reject('Missing Params');
+            } else {
+                models.service.create(params).then(service => {
+                    resolve(service.dataValues);
+                }).catch((err) => {
+                    console.error(
+                        'Error addService sellerService:', err
+                    );
+                    reject('Server side error');
+                });
+            }
+        });
+    },
+
+    updateService: function(params) {
+        return new Promise((resolve, reject) => {
+            if (!params.email || !params.serviceId) {
+                reject('Missing Params');
+            } else {
+                validationService.doesSuchServiceExist(params)
+                    .then(result => {
+                        if (result) {
+                            const service = result;
+                            service.updateAttributes(params)
+                                .then(service => {
+                                    resolve(service.dataValues);
+                                }).catch(err => {
+                                    console.error(
+                                        'Error updateService sellerService', err
+                                    );
+                                    reject('Server side error');
+                                });
+
+                        } else { 
+                            reject('No such service exist');             
+                        }
+                    }).catch(err => {
+                        console.error(
+                            'Error updateService sellerService validation', err
+                        );
+                        reject('Server side error');
+                    });
             }
         });
     }
