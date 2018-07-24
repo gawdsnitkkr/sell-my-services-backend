@@ -34,7 +34,7 @@ module.exports = {
     	    utilityService.saveRequestLog({
     	    	ipAddress: ipAddress,
     	    	url: url,
-    	    	body: body
+    	    	body: JSON.stringify(body)
     	    });
     	}
     	next();
