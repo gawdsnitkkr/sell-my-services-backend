@@ -17,7 +17,10 @@ const middlewares = require('../middlewares');
 // middleware to verify a token
 router.use(middlewares.verifyToken);
 
-router.post('/seller/get', (req, res) => {
+// Get all the sellers
+router.get('/sellers', (req, res) => {
+	// TODO: Provide pagination and allow to fetch previous
+	// and next pages
 	const params = req.body;
 	sellerService.getSeller(params)
 		.then(seller => { 
@@ -37,7 +40,9 @@ router.post('/seller/get', (req, res) => {
 		});
 });
 
-router.post('/seller/update/profile', (req, res) => {
+
+// Update information of a seller
+router.put('/sellers', (req, res) => {
 	const params = req.body;
 	sellerService.updateSeller(params)
 		.then(seller => { 
@@ -57,7 +62,8 @@ router.post('/seller/update/profile', (req, res) => {
 		});
 });
 
-router.post('/seller/add/service', (req, res) => {
+// Create a new Service
+router.post('/services', (req, res) => {
 	const params = req.body;
 	params.sellerId = req.decoded.id;
 	sellerService.addService(params)
@@ -78,7 +84,9 @@ router.post('/seller/add/service', (req, res) => {
 		});
 });
 
-router.post('/seller/update/service', (req, res) => {
+
+// Updates a service
+router.put('/services', (req, res) => {
 	const params = req.body;
 	sellerService.updateService(params)
 		.then(service => { 
