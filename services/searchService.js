@@ -25,7 +25,7 @@ module.exports = {
 
 		return new Promise((resolve, reject) => {
 			if (!latitude || !longitude || !searchText) {
-				reject('Missing params');
+				return reject('Missing params');
 			}
 			
 			const latitudeMax = parseFloat(latitude) + config.latitudeThreshold;
@@ -49,7 +49,7 @@ module.exports = {
 			        + searchText
 			        + '")';
 
-			return models.seller.findAll({
+			models.seller.findAll({
 				where: {
 					latitude: {
 					    [Op.between]: latitudeRange

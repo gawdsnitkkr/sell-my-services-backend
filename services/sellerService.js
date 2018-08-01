@@ -56,7 +56,7 @@ module.exports = {
     login: function({ email, password }) {
         return new Promise((resolve, reject) => {
             if (!email || !password) {
-                reject('Missing params');
+                return reject('Missing params');
             } else {
                 doesSuchSellerExist(params)
                     .then(result => {
@@ -94,7 +94,7 @@ module.exports = {
     getSeller: function({ email }) {
         return new Promise((resolve, reject) => {
             if (!email) {
-                reject('Invalid Request');
+                return reject('Invalid Request');
             } else {
                 doesSuchSellerExist(email)
                     .then(result => {
