@@ -1,4 +1,4 @@
 node_modules/
 *.log
 config/config.json
-.vscode
+.vscode/

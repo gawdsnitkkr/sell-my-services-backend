@@ -5,9 +5,6 @@
  * A seller is the entity who sell his services through SellMyService app
  */
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
-
 const { doesSuchSellerExist } = require('./validationService');
 const models = require('../models');
 
