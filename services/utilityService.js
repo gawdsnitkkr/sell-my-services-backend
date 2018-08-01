@@ -12,15 +12,15 @@ const config = require('../config/config.json')[env];
 
 module.exports = {
 
-    getToken: (params) => {
+    getToken: ({ mobile, name, id, email }) => {
         const expiresIn = config.tokenMaxAge // 30 days (30 * 24 * 60 * 60)
 
         // create a token
         const token = jwt.sign({
-            mobile: params.mobile,
-            name: params.name,
-            id: params.id,
-            email: params.email
+            mobile,
+            name,
+            id,
+            email
         }, config.superSecret, {
             expiresIn: expiresIn
         });

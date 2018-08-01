@@ -21,7 +21,7 @@ router.use(middlewares.verifyToken);
 router.get('/sellers', (req, res) => {
 	// TODO: Provide pagination and allow to fetch previous
 	// and next pages
-	const params = req.body;
+	const params = req.query;
 	sellerService.getSeller(params)
 		.then(seller => { 
 			res.json({

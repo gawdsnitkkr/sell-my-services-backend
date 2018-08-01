@@ -8,21 +8,19 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
-const validationService = require('./validationService');
+const { doesSuchSellerExist } = require('./validationService');
 const models = require('../models');
 
 const bcrypt = require('bcrypt');
 
 module.exports = {
 
-    signup: function(params) {
+    signup: function({ email, latitude, longitude, password }) {
         return new Promise((resolve, reject) => {
-            if (!params.email || !params.latitude
-                    || !params.longitude
-                    || !params.password) {
+            if (!email || !latitude || !longitude || !password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchSellerExist(params)
+                doesSuchSellerExist(params)
                     .then(result => {
                         if (result) {
                             reject('This email has been used. Try Login');
@@ -55,12 +53,12 @@ module.exports = {
         });
     },
 
-    login: function(params) {
+    login: function({ email, password }) {
         return new Promise((resolve, reject) => {
-            if (!params.email || !params.password) {
+            if (!email || !password) {
                 reject('Missing params');
             } else {
-                validationService.doesSuchSellerExist(params)
+                doesSuchSellerExist(params)
                     .then(result => {
                         if (result) {
                             const seller = result;
@@ -93,12 +91,12 @@ module.exports = {
         });
     },
 
-    getSeller: function(params) {
+    getSeller: function({ email }) {
         return new Promise((resolve, reject) => {
-            if (!params.email) {
+            if (!email) {
                 reject('Invalid Request');
             } else {
-                validationService.doesSuchSellerExist(params.email)
+                doesSuchSellerExist(email)
                     .then(result => {
                         if (result) {
                             const seller = result;
@@ -116,9 +114,9 @@ module.exports = {
         });
     },
 
-    updateSeller: function(params) {
+    updateSeller: function({ email }) {
         return new Promise((resolve, reject) => {
-            if (!params.email) {
+            if (!email) {
                 reject('Missing Params');
             } else {
                 models.seller.findOne({
@@ -149,9 +147,9 @@ module.exports = {
         });
     },
 
-    addService: function(params) {
+    addService: function({ name, sellerId }) {
         return new Promise((resolve, reject) => {
-            if (!params.name || !params.sellerId) {
+            if (!name || !sellerId) {
                 reject('Missing Params');
             } else {
                 models.service.create(params).then(service => {
@@ -166,16 +164,16 @@ module.exports = {
         });
     },
 
-    updateService: function(params) {
+    updateService: function({ email, serviceId, ...rest }) {
         return new Promise((resolve, reject) => {
-            if (!params.email || !params.serviceId) {
+            if (!email || !serviceId) {
                 reject('Missing Params');
             } else {
-                validationService.doesSuchServiceExist(params)
+                doesSuchServiceExist(params)
                     .then(result => {
                         if (result) {
                             const service = result;
-                            service.updateAttributes(params)
+                            service.updateAttributes(rest)
                                 .then(service => {
                                     resolve(service.dataValues);
                                 }).catch(err => {

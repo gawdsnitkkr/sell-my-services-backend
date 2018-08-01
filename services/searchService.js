@@ -9,14 +9,14 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 const models = require('../models');
-const utilityService = require('./utilityService');
+const { swapValues } = require('./utilityService');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
 module.exports = {
 
-	searchSellers: (params) => {
+	searchSellers: ({ latitude, longitude, searchText }) => {
 		/**
 		 * A threshold = 0.3 gives a distance range ~ 47 KM
 		 * since latitude and longitude can be negative so check 
@@ -24,32 +24,32 @@ module.exports = {
 		 */
 
 		return new Promise((resolve, reject) => {
-			if (!params.latitude || !params.longitude || !params.searchText) {
+			if (!latitude || !longitude || !searchText) {
 				reject('Missing params');
 			}
-
-			const latitudeMax = params.latitude + config.latitudeThreshold;
-			const latitudeMin = params.latitude - config.latitudeThreshold;
+			
+			const latitudeMax = parseFloat(latitude) + config.latitudeThreshold;
+			const latitudeMin = parseFloat(latitude) - config.latitudeThreshold;
 			let latitudeRange = [latitudeMin, latitudeMax];
 			if (latitudeMin > latitudeMax) {
 				// swap values
-				latitudeRange = utilityService.swapValues(latitudeRange);
+				latitudeRange = swapValues(latitudeRange);
 			}
 
-			const longitudeMax = params.longitude + config.longitudeThreshold;
-			const longitudeMin = params.longitude - config.longitudeThreshold;
+			const longitudeMax = longitude + config.longitudeThreshold;
+			const longitudeMin = longitude - config.longitudeThreshold;
 			let longitudeRange = [longitudeMin, longitudeMax];
 			if (longitudeMin > longitudeMax) {
 				// swap values
-				longitudeRange = utilityService.swapValues(longitudeRange);
+				longitudeRange = swapValues(longitudeRange);
 			}
 
 			const fullTextSearchQuery = 
 			        'MATCH (services.name, tags) AGAINST ("'
-			        + params.searchText
+			        + searchText
 			        + '")';
 
-			models.seller.findAll({
+			return models.seller.findAll({
 				where: {
 					latitude: {
 					    [Op.between]: latitudeRange
@@ -73,10 +73,7 @@ module.exports = {
 				]
 			}).then((sellers) => {
 				if (sellers.length > 0) {
-					const result = [];
-					for (let i = 0; i < sellers.length; i++) {
-					    result[i] = sellers[i].dataValues;
-					}
+					const result = sellers.map(seller => seller.dataValues);
 					resolve(result);
 				} else {
 					resolve([]);

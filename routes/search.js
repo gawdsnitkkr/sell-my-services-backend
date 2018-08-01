@@ -17,7 +17,7 @@ const config = require('../config/config.json')[env];
 
 
 router.get('/sellers', (req, res) => {
-	const params = req.body;
+	const params = req.query;
 	searchService.searchSellers(params)
 		.then(sellers => { 
 			res.json({
