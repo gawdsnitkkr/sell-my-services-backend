@@ -8,17 +8,12 @@
 const express = require('express');
 const router = express.Router();
 
-const utilityService = require('../services/utilityService');
-const searchService = require('../services/searchService');
-const validationService = require('../services/validationService');
-
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
+const { searchSellers } = require('../services/searchService');
 
 
 router.get('/sellers', (req, res) => {
-	const params = req.body;
-	searchService.searchSellers(params)
+	const params = req.query;
+	searchSellers(params)
 		.then(sellers => { 
 			res.json({
 				success: true,

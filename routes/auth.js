@@ -6,10 +6,6 @@
 const express = require('express');
 const router = express.Router();
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
-
-const utilityService = require('../services/utilityService');
 const sellerService = require('../services/sellerService');
 
 const middlewares = require('../middlewares');
@@ -21,7 +17,7 @@ router.use(middlewares.verifyToken);
 router.get('/sellers', (req, res) => {
 	// TODO: Provide pagination and allow to fetch previous
 	// and next pages
-	const params = req.body;
+	const params = req.query;
 	sellerService.getSeller(params)
 		.then(seller => { 
 			res.json({

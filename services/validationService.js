@@ -7,15 +7,11 @@ const models = require('../models');
 
 module.exports = {
 
-	doesSuchSellerExist: function(params) {
+	doesSuchSellerExist: function({ email }) {
 		return new Promise((resolve, reject) => {
-			const condition = {
-				email: params.email
-			};
+			const where = { email };
 			
-			models.seller.findOne({
-				where: condition
-			}).then((seller) => {
+			models.seller.findOne({ where }).then(seller => {
 			    if (seller) {
 			    	resolve(seller);
 			    } else {
@@ -27,10 +23,10 @@ module.exports = {
 		});
 	},
 
-	doesSuchServiceExist: function(params) {
+	doesSuchServiceExist: function({ serviceId, email  }) {
 		return new Promise((resolve, reject) => {
 			const condition = {
-				id: params.serviceId
+				id: serviceId
 			};
 			
 			models.service.findOne({
@@ -43,7 +39,7 @@ module.exports = {
 				]
 			}).then((service) => {
 			    if (service) {
-			    	if (service.seller.email === params.email) {
+			    	if (service.seller.email === email) {
 			    		resolve(service)
 			    	} else {
 			    		resolve(false);
