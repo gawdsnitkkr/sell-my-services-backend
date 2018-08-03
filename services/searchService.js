@@ -44,7 +44,8 @@ module.exports = {
         longitudeRange = swapValues(longitudeRange);
       }
 
-      const fullTextSearchQuery = `MATCH (services.name, tags) AGAINST ("'${searchText}'")`;
+      const fullTextSearchQuery = 
+          `MATCH (services.name, tags) AGAINST ("'${searchText}'")`;
 
       models.seller.findAll({
         where: {

@@ -24,6 +24,7 @@
       "error",
       "always"
     ],
-    "no-console": "off"
+    "no-console": "off",
+    "max-len": [1, 80, 2, {"ignoreComments": true}]
   }
 }
