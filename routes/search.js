@@ -12,23 +12,23 @@ const { searchSellers } = require('../services/searchService');
 
 
 router.get('/sellers', (req, res) => {
-	const params = req.query;
-	searchSellers(params)
-		.then(sellers => { 
-			res.json({
-				success: true,
-				result: sellers
-			});
-		}).catch(err => {
-			if (typeof(err) != 'string') {
-				console.error('Error /search/sellers', err);
-				err = 'Server side error';
-			}
-			res.json({
-				success: false,
-				message: err
-			});
-		});
+  const params = req.query;
+  searchSellers(params)
+    .then(sellers => { 
+      res.json({
+        success: true,
+        result: sellers
+      });
+    }).catch(err => {
+      if (typeof(err) != 'string') {
+        console.error('Error /search/sellers', err);
+        err = 'Server side error';
+      }
+      res.json({
+        success: false,
+        message: err
+      });
+    });
     
 });
 

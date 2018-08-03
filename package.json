@@ -6,7 +6,7 @@
   "main": "./bin/www",
   "scripts": {
     "start": "export NODE_ENV=production && pm2 start ./bin/www",
-    "test": "exit 0"
+    "test": "./node_modules/.bin/eslint ."
   },
   "keywords": [
     "sell-my-services",
@@ -25,5 +25,8 @@
     "s": "^0.1.1",
     "sequelize": "^4.38.0",
     "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0"
   }
 }

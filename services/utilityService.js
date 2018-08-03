@@ -12,40 +12,41 @@ const config = require('../config/config.json')[env];
 
 module.exports = {
 
-    getToken: ({ mobile, name, id, email }) => {
-        const expiresIn = config.tokenMaxAge // 30 days (30 * 24 * 60 * 60)
+  getToken: ({ mobile, name, id, email }) => {
+    const expiresIn = config.tokenMaxAge; // 30 days (30 * 24 * 60 * 60)
 
-        // create a token
-        const token = jwt.sign({
-            mobile,
-            name,
-            id,
-            email
-        }, config.superSecret, {
-            expiresIn: expiresIn
-        });
-        return token;
-    },
+    // create a token
+    const token = jwt.sign({
+      mobile,
+      name,
+      id,
+      email
+    }, config.superSecret, {
+      expiresIn: expiresIn
+    });
 
-    isInt: (value) => (
-        !isNaN(value) 
-                && (parseInt(Number(value)) === value) 
-                && (!isNaN(parseInt(value, 10)))
-    ),
+    return token;
+  },
 
-    swapValues: (arr) => {
-        let temp = arr[0];
-        arr[0] = arr[1];
-        arr[1] = temp;
-        return arr;
-    },
+  isInt: (value) => (
+    !isNaN(value) 
+    && (parseInt(Number(value)) === value) 
+    && (!isNaN(parseInt(value, 10)))
+  ),
 
-    saveRequestLog: (params) => {
-        models.requestLog.create(params).then((log) => {
-            console.log('Info Request log added');
-        }).catch((err) => {
-            console.error('Error saveRequestLog', err);
-        });
-    }
+  swapValues: (arr) => {
+    let temp = arr[0];
+    arr[0] = arr[1];
+    arr[1] = temp;
+    return arr;
+  },
+
+  saveRequestLog: (params) => {
+    models.requestLog.create(params).then(() => {
+      console.log('Info Request log added');
+    }).catch((err) => {
+      console.error('Error saveRequestLog', err);
+    });
+  }
 
 };
