@@ -54,10 +54,4 @@ const logger = winston.createLogger({
     exitOnError: false
 });
 
-logger.stream = {
-    write: (message, encoding) => {
-        logger.info(message);
-    }
-};
-
 module.exports = logger;
