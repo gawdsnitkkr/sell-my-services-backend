@@ -11,10 +11,12 @@ var db        = {};
 // to avoid sequelize deprecated warning - String based operators are now deprecated.
 config.operatorsAliases = Sequelize.Op;
 
+let sequelize = null;
+
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
 fs

@@ -7,24 +7,24 @@ const config = require('../config/config.json')[env];
 const logDirectory = 'logs';
 
 if (!fs.existsSync(logDirectory)) {
-	// Create the directory if it does not exist
-	fs.mkdirSync(logDirectory);
+  // Create the directory if it does not exist
+  fs.mkdirSync(logDirectory);
 }
 
 let logTransport;
 if (env === 'development') {
-	logTransport = new winston.transports.Console({
-        level: config.logLevel,
-        handleExceptions: true
-    });
+  logTransport = new winston.transports.Console({
+    level: config.logLevel,
+    handleExceptions: true
+  });
 } else {
-	logTransport = new winston.transports.File({
-        level: config.logLevel,
-        filename: './logs/all-logs.log',
-        handleExceptions: true,
-        maxsize: 5242880, // 5MB
-        maxFiles: 5
-    });
+  logTransport = new winston.transports.File({
+    level: config.logLevel,
+    filename: './logs/all-logs.log',
+    handleExceptions: true,
+    maxsize: 5242880, // 5MB
+    maxFiles: 5
+  });
 }
 
 /**
@@ -32,26 +32,26 @@ if (env === 'development') {
  * here winston.format.json() is not working in production but not issue
  */
 const logger = winston.createLogger({
-	format: winston.format.combine(
-	    (env === 'development' ? 
-	    	    winston.format.colorize({all: true}) : winston.format.json()),
-	    winston.format.timestamp({
-	    	format: 'DD-MM-YYYY HH:mm:ss'
-	    }),
-	    winston.format.align(),
-	    winston.format.printf((info) => {
-	    	const {
-	    		timestamp, level, message, ...args
-	    	} = info;
-	    	let object = '';
-	    	if (Object.keys(args).length > 0) {
-	    		object = JSON.stringify(args);
-	    	}
-	    	return `${timestamp} [${level}]: ${message} ${object}`;
-	    })
-	),
-    transports: [logTransport],
-    exitOnError: false
+  format: winston.format.combine(
+    (env === 'development' ? 
+      winston.format.colorize({all: true}) : winston.format.json()),
+    winston.format.timestamp({
+      format: 'DD-MM-YYYY HH:mm:ss'
+    }),
+    winston.format.align(),
+    winston.format.printf((info) => {
+      const {
+        timestamp, level, message, ...args
+      } = info;
+      let object = '';
+      if (Object.keys(args).length > 0) {
+        object = JSON.stringify(args);
+      }
+      return `${timestamp} [${level}]: ${message} ${object}`;
+    })
+  ),
+  transports: [logTransport],
+  exitOnError: false
 });
 
 module.exports = logger;
