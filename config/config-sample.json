@@ -9,7 +9,8 @@
         "latitudeThreshold": 0.3,
         "longitudeThreshold": 0.3,
         "tokenMaxAge": 2592000,
-        "tokenName": "authToken"
+        "tokenName": "authToken",
+        "logLevel": "debug"
     },
     "production": {
         "username": "DATABASE_USERNAME",
@@ -21,6 +22,7 @@
         "latitudeThreshold": 0.3,
         "longitudeThreshold": 0.3,
         "tokenMaxAge": 2592000,
-        "tokenName": "authToken"
+        "tokenName": "authToken",
+        "logLevel": "info"
     }
 }

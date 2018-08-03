@@ -10,32 +10,36 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 
 const utilityService = require('../services/utilityService');
+const logger = require('../modules/logger');
 
 module.exports = {
 
     logRequest: function(req, res, next) {
-    	if (req.method == 'POST') {
-    	    const ipAddress = (
-    	                req.headers['x-forwarded-for'] 
-    	                        && req.headers['x-forwarded-for'].split(',').pop())
-    	            || req.connection.remoteAddress
-    	            || req.socket.remoteAddress
-    	            || req.connection.socket.remoteAddress;
+    	const ipAddress = (
+    	            req.headers['x-forwarded-for'] 
+    	                    && req.headers['x-forwarded-for'].split(',').pop())
+    	        || req.connection.remoteAddress
+    	        || req.socket.remoteAddress
+    	        || req.connection.socket.remoteAddress;
 
-    	    const url = req.originalUrl;
-    	    const body = req.body;
+    	const url = req.originalUrl;
+    	const body = req.body;
 
-    	    console.log('POST IPAddress: ', ipAddress);
-    	    console.log('\x1b[36m%s\x1b[0m', 'Request URL:', url);
-    	    console.log('POST: ', body);
-    	    console.log('\x1b[33m%s\x1b[0m', '-----------------------------');
+    	logger.info('IPAddress: ' + ipAddress);
+    	logger.info('Request Method: ' + req.method);
+    	logger.info('Request Url: ' + url);
+    	logger.info('Request Body: ', body);
 
-    	    // save these info to requestLogs table
-    	    utilityService.saveRequestLog({
-    	    	ipAddress: ipAddress,
-    	    	url: url,
-    	    	body: JSON.stringify(body)
-    	    });
+    	/**
+    	 * Though we are logging all requests, search data is critical to study
+    	 * so saving it into database
+    	 */
+    	if (url.indexOf('/search/sellers') >= 0) {
+    		utilityService.saveRequestLog({
+    			ipAddress: ipAddress,
+    			url: url,
+    			body: JSON.stringify(body)
+    		});
     	}
     	next();
     },
