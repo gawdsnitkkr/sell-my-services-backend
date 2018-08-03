@@ -5,7 +5,8 @@
   "description": "search and sell your services to nearby locations",
   "main": "./bin/www",
   "scripts": {
-    "start": "export NODE_ENV=production && pm2 start ./bin/www"
+    "start": "export NODE_ENV=production && pm2 start ./bin/www",
+    "test": "exit 0"
   },
   "keywords": [
     "sell-my-services",
