@@ -14,3 +14,6 @@ services. These services then can be searched by seekers in their nearby locatio
 7. After availing a service, a seeker can share feedback and rating to corresponding seller on our platform.
 
 ### [Contributing Guidelines](CONTRIBUTING.md)
+
+### Online Discussion Forum  
+Enter the [Slack Group](https://join.slack.com/t/gawdsnitkkr/shared_invite/enQtNDExNjU0OTQwNTk4LWNhOWY0ZTkyYTU2NzdiNjAxNWUzMGY0ZTNmNDkzYjIyNjI3ODVhYzFhYmVkYTkwYjRhYjg4ODc2NDU0YmJlOTQ) and join #sellservicesback channel. :smile:
