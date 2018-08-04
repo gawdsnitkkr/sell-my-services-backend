@@ -6,7 +6,7 @@
   "main": "./bin/www",
   "scripts": {
     "start": "export NODE_ENV=production && pm2 start ./bin/www",
-    "test": "./node_modules/.bin/eslint . && mocha test/*"
+    "test": "./node_modules/.bin/eslint . && mocha test/**/*.js"
   },
   "keywords": [
     "sell-my-services",
