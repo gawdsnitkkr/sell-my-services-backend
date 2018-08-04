@@ -1,4 +1,5 @@
 node_modules/
 *.log
-config/config.json
+config/config.js
 .vscode/
+.DS_Store

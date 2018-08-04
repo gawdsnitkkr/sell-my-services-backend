@@ -5,3 +5,9 @@ cache:
     - "node_modules"
 script:
   - npm test
+services:
+  - mysql
+before_install:
+  - cp config/config-sample.js config/config.js
+  - mysql -e "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;"
+  - mysql -u $DATABASE_USERNAME $DATABASE_NAME < test/travis.sql

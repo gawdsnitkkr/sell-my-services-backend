@@ -18,9 +18,9 @@ services. These services then can be searched by seekers in their nearby locatio
 1. Clone the repo `https://github.com/gawdsnitkkr/sell-my-services-backend.git`
 2. Move to project folder `cd sell-my-services-backend`
 3. Install dependencies `npm install`
-4. Create config.json file from config-sample.json `cd config && cp config-sample.json config.json`
-5. In MySql create a database "sellMyServices" (or with any other name but must be mentioned in config.json)
-6. Update `username` with your MySql username and `password` with your MySql password in config.json 
+4. Create config.js file from config-sample.js `cd config && cp config-sample.js config.js`
+5. In MySql create a database "sellMyServices" (or with any other name but must be mentioned in config.js)
+6. Update `username` with your MySql username and `password` with your MySql password in config.js 
 7. start the project from project root directory `node bin/www` or `nodemon`
 
 ### [Contributing Guidelines](CONTRIBUTING.md)

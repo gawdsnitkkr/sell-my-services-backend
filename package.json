@@ -6,7 +6,7 @@
   "main": "./bin/www",
   "scripts": {
     "start": "export NODE_ENV=production && pm2 start ./bin/www",
-    "test": "./node_modules/.bin/eslint ."
+    "test": "./node_modules/.bin/eslint . && mocha test/**/*.js"
   },
   "keywords": [
     "sell-my-services",
@@ -27,6 +27,8 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.2.0"
+    "eslint": "^5.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
   }
 }

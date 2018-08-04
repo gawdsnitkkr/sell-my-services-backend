@@ -12,7 +12,7 @@ const models = require('../models');
 const { swapValues } = require('./utilityService');
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
+const config = require('../config/config.js')[env];
 
 module.exports = {
 

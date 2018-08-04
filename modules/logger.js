@@ -2,7 +2,7 @@ const winston = require('winston');
 const fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
+const config = require('../config/config.js')[env];
 
 const logDirectory = 'logs';
 
