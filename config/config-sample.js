@@ -2,8 +2,8 @@ module.exports = {
   'development': {
     'username': process.env.DATABASE_USERNAME || 'root',
     'password': process.env.DATABASE_PASSWORD || '',
-    'database': process.envDATABSE_NAME || 'sellMyServices',
-    'host': process.envDATABASE_HOST || 'localhost',
+    'database': process.env.DATABSE_NAME || 'sellMyServices',
+    'host': process.env.DATABASE_HOST || 'localhost',
     'dialect': 'mysql',
     'superSecret': process.env.SECRET_STRING || 'SECRET',
     'latitudeThreshold': 0.3,
