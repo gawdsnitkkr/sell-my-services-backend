@@ -5,7 +5,10 @@
  * A seller is the entity who sell his services through SellMyService app
  */
 
-const { doesSuchSellerExist, doesSuchServiceExist } = require('./validationService');
+const { 
+  doesSuchSellerExist, 
+  doesSuchServiceExist 
+} = require('./validationService');
 const models = require('../models');
 
 const bcrypt = require('bcrypt');
@@ -25,7 +28,9 @@ module.exports = {
               bcrypt.hash(password, 2).then((hash) => {
                 password = hash;
                 // insert seller info to db
-                models.seller.create({ email, latitude, longitude, password }).then(seller => {
+                models.seller.create({ 
+                  email, latitude, longitude, password 
+                }).then(seller => {
                   resolve(seller.dataValues);
                 }).catch((err) => {
                   console.error(
@@ -69,7 +74,8 @@ module.exports = {
                   reject('Password mismatch');
                 }
               }).catch((err) => {
-                const errorMessage = 'Error login sellerService decrypting password';
+                const errorMessage = 
+                    'Error login sellerService decrypting password';
                 console.error(errorMessage, err);
                 reject('Server side error');
               });
@@ -180,7 +186,9 @@ module.exports = {
               reject('No such service exist');             
             }
           }).catch(err => {
-            console.error(`Error updateService sellerService validation ${err}`);
+            console.error(
+              `Error updateService sellerService validation ${err}`
+            );
             reject('Server side error');
           });
       }
