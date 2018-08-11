@@ -1,29 +1,25 @@
-/**
- * Created by: Varun kumar
- * Date: 08 July, 2018
- * 
- * All routes starting with /search
- */
-
 const express = require('express');
 const router = express.Router();
 
-const { searchSellers } = require('../services/searchService');
+const logger = require('../modules/logger');
 
+const { searchSellers } = require('../services/searchService');
 
 router.get('/sellers', (req, res) => {
   const params = req.query;
   searchSellers(params)
-    .then(sellers => { 
+    .then(([sellers, responseCode]) => { 
+      res.status(responseCode);
       res.json({
         success: true,
         result: sellers
       });
-    }).catch(err => {
-      if (typeof(err) != 'string') {
-        console.error('Error /search/sellers', err);
+    }).catch(([err, responseCode]) => {
+      if (typeof(err) !== 'string') {
+        res.status(responseCode);
+        logger.error('Error /search/sellers', err); // todo: err is not getting printed
         err = 'Server side error';
-      }
+      } 
       res.json({
         success: false,
         message: err

@@ -8,8 +8,10 @@ module.exports = {
     'superSecret': process.env.SECRET_STRING || 'SECRET',
     'latitudeThreshold': 0.3,
     'longitudeThreshold': 0.3,
-    'tokenMaxAge': 2592000,
-    'tokenName': 'authToken'
+    'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
+    'tokenName': 'authToken',
+    'logLevel': 'debug',
+    'googleSigninClientId': ''
   },
   'production': {
     'username': process.env.DATABASE_USERNAME || 'DATABASE_USERNAME',
@@ -20,7 +22,9 @@ module.exports = {
     'superSecret': process.env.SECRET_STRING || 'SECRET',
     'latitudeThreshold': 0.3,
     'longitudeThreshold': 0.3,
-    'tokenMaxAge': 2592000,
-    'tokenName': 'authToken'
+    'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
+    'tokenName': 'authToken',
+    'logLevel': 'debug',
+    'googleSigninClientId': ''
   }
 };

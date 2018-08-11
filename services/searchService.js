@@ -1,10 +1,3 @@
-/**
- * Created by: Varun kumar
- * Date: 08 July, 2018
- *
- * All the controller methods to support '/search/'' routes
- */
-
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -13,6 +6,8 @@ const { swapValues } = require('./utilityService');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
+
+const statusCode = require('../constants/statusCode');
 
 module.exports = {
 
@@ -25,7 +20,7 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       if (!latitude || !longitude || !searchText) {
-        return reject('Missing params');
+        return reject(['Missing params', statusCode.BAD_REQUEST]);
       }
 			
       const latitudeMax = parseFloat(latitude) + config.latitudeThreshold;
@@ -72,13 +67,13 @@ module.exports = {
       }).then((sellers) => {
         if (sellers.length > 0) {
           const result = sellers.map(seller => seller.dataValues);
-          resolve(result);
+          resolve([result, statusCode.OK]);
         } else {
-          resolve([]);
+          resolve([[], statusCode.OK]);
         }
       }).catch((err) => {
         console.error('Error searchSellers', err);
-        reject('Error occured');
+        reject(['Error occured', statusCode.INTERNAL_SERVER_ERROR]);
       });
     });
   }

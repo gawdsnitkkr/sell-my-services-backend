@@ -1,13 +1,10 @@
-/**
- * Created by: Varun kumar
- * Date: 11 July, 2018
- */
-
 const express = require('express');
 const router = express.Router();
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
+
+const logger = require('../modules/logger');
 
 const utilityService = require('../services/utilityService');
 const sellerService = require('../services/sellerService');
@@ -53,6 +50,32 @@ router.post('/login', (req, res) => {
     }).catch(err => {
       if (typeof(err) != 'string') {
         console.error('Error /seller/login', err);
+        err = 'Server side error';
+      }
+      res.json({
+        success: false,
+        message: err
+      });
+    });
+});
+
+router.post('/google-token-signin', (req, res) => {
+  const params = req.body;
+  sellerService.loginUsingGoogle(params)
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode);
+      const token = utilityService.getToken(seller);
+      const successObject = {
+        success: true,
+        result: seller
+      };
+      successObject[config.tokenName] = token;
+      successObject.expiresIn = config.tokenMaxAge;
+      res.json(successObject);
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('Error /seller/google-token-signin', err);
         err = 'Server side error';
       }
       res.json({
