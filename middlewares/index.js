@@ -53,11 +53,11 @@ module.exports = {
       // verifies secret and checks exp
       jwt.verify(token, config.superSecret, (err, decoded) => {      
         if (err) {
-          res.status(statusCode.SC_UNAUTHORIZED);
-          res.json({
-            success: false,
-            message: 'Failed to authenticate'
-          });    
+          res.status(statusCode.SC_UNAUTHORIZED)
+            .json({
+              success: false,
+              message: 'Failed to authenticate'
+            });    
         } else {
 
           // if everything is good, save to request for use in other routes

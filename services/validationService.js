@@ -18,7 +18,7 @@ module.exports = {
             mobile: seller.dataValues.mobile,
             name: seller.dataValues.name,
             email: seller.dataValues.email,
-            profileUrl: seller.dataValues.profileUrl
+            profilePic: seller.dataValues.profilePic
           });
         } else {
           resolve(false);

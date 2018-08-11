@@ -39,7 +39,7 @@ module.exports = {
                     mobile: seller.dataValues.mobile,
                     name: seller.dataValues.name,
                     email: seller.dataValues.email,
-                    profileUrl: seller.dataValues.profileUrl
+                    profilePic: seller.dataValues.profilePic
                   });
                 }).catch((err) => {
                   console.error(
@@ -83,7 +83,7 @@ module.exports = {
                     mobile: seller.dataValues.mobile,
                     name: seller.dataValues.name,
                     email: seller.dataValues.email,
-                    profileUrl: seller.dataValues.profileUrl
+                    profilePic: seller.dataValues.profilePic
                   });
                 } else {
                   reject('Password mismatch');
@@ -126,7 +126,7 @@ module.exports = {
               const seller = {
                 email: payload.email,
                 name: payload.name,
-                profileUrl: payload.picture,
+                profilePic: payload.picture,
                 password: generateOTP() + '', // converting to string
                 latitude: latitude,
                 longitude: longitude
@@ -142,7 +142,7 @@ module.exports = {
                     mobile: seller.dataValues.mobile,
                     name: seller.dataValues.name,
                     email: seller.dataValues.email,
-                    profileUrl: seller.dataValues.profileUrl
+                    profilePic: seller.dataValues.profilePic
                   });
                 }).catch((err) => {
                   logger.error('Error signup sellerService:', err);

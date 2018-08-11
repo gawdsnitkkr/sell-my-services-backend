@@ -65,7 +65,7 @@ router.post('/google-token-signin', (req, res) => {
   const params = req.body;
   sellerService.loginUsingGoogle(params)
     .then(seller => { 
-      res.status(statusCode.SC_CREATED);
+      res.status(statusCode.CREATED);
       const token = utilityService.getToken(seller);
       const successObject = {
         success: true,
@@ -76,11 +76,11 @@ router.post('/google-token-signin', (req, res) => {
       res.json(successObject);
     }).catch(err => {
       if (typeof(err) !== 'string') {
-        res.status(statusCode.SC_INTERNAL_SERVER_ERROR);
+        res.status(statusCode.INTERNAL_SERVER_ERROR);
         logger.error('Error /seller/google-token-signin', err);
         err = 'Server side error';
       } else {
-        res.status(statusCode.SC_BAD_REQUEST);
+        res.status(statusCode.BAD_REQUEST);
       }
       res.json({
         success: false,

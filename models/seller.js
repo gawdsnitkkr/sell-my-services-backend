@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true,
     },
-    profileUrl: {
+    profilePic: {
       type: DataTypes.STRING(512),
       allowNull: true
     },
