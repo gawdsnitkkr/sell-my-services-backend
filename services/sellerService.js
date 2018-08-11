@@ -13,6 +13,7 @@ const {
 } = require('./validationService');
 
 const { generateOTP } = require('./utilityService');
+const statusCode = require('../constants/statusCode');
 
 const models = require('../models');
 
@@ -121,13 +122,13 @@ module.exports = {
         doesSuchSellerExist(payload.email)
           .then(result => {
             if (result) {
-              resolve(result);
+              resolve([result, statusCode.OK]);
             } else { 
               const seller = {
                 email: payload.email,
                 name: payload.name,
                 profilePic: payload.picture,
-                password: generateOTP() + '', // converting to string
+                password: `${generateOTP()}`,
                 latitude: latitude,
                 longitude: longitude
               };
@@ -137,33 +138,38 @@ module.exports = {
 
                 // insert seller info to db
                 models.seller.create(seller).then(seller => {
-                  resolve({
-                    id: seller.dataValues.id,
-                    mobile: seller.dataValues.mobile,
-                    name: seller.dataValues.name,
-                    email: seller.dataValues.email,
-                    profilePic: seller.dataValues.profilePic
-                  });
+                  resolve([
+                    {
+                      id: seller.dataValues.id,
+                      mobile: seller.dataValues.mobile,
+                      name: seller.dataValues.name,
+                      email: seller.dataValues.email,
+                      profilePic: seller.dataValues.profilePic
+                    },
+                    statusCode.CREATED
+                  ]);
                 }).catch((err) => {
                   logger.error('Error signup sellerService:', err);
-                  reject('Server side error');
+                  reject([
+                    'Server side error', statusCode.INTERNAL_SERVER_ERROR
+                  ]);
                 });
               }).catch((err) => {
                 const errorMessage = 'Error signup '
                         + 'sellerService encrypting password';
                 logger.error(errorMessage, err); // to-debug: err is not getting printed
-                reject('Server side error');
+                reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
               });             
             }
           }).catch(err => {
             logger.error(
               'Error loginUsingGoogle sellerService validation', err
             );
-            reject('Server side error');
+            reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
           });
       }).catch(err => {
         logger.error(err);
-        reject('Server side error');
+        reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
       });
     });
   },

@@ -9,8 +9,6 @@ const logger = require('../modules/logger');
 const utilityService = require('../services/utilityService');
 const sellerService = require('../services/sellerService');
 
-const statusCode = require('../constants/statusCode');
-
 router.post('/signup', (req, res) => {
   const params = req.body;
   sellerService.signup(params)
@@ -64,8 +62,8 @@ router.post('/login', (req, res) => {
 router.post('/google-token-signin', (req, res) => {
   const params = req.body;
   sellerService.loginUsingGoogle(params)
-    .then(seller => { 
-      res.status(statusCode.CREATED);
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode);
       const token = utilityService.getToken(seller);
       const successObject = {
         success: true,
@@ -74,13 +72,11 @@ router.post('/google-token-signin', (req, res) => {
       successObject[config.tokenName] = token;
       successObject.expiresIn = config.tokenMaxAge;
       res.json(successObject);
-    }).catch(err => {
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
       if (typeof(err) !== 'string') {
-        res.status(statusCode.INTERNAL_SERVER_ERROR);
         logger.error('Error /seller/google-token-signin', err);
         err = 'Server side error';
-      } else {
-        res.status(statusCode.BAD_REQUEST);
       }
       res.json({
         success: false,
