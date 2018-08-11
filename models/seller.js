@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true,
     },
+    profileUrl: {
+      type: DataTypes.STRING(512),
+      allowNull: true
+    },
     latitude: {
       type: DataTypes.FLOAT,
       allowNull: false
@@ -32,11 +36,6 @@ module.exports = function(sequelize, DataTypes) {
     longitude: {
       type: DataTypes.FLOAT,
       allowNull: false
-    },
-    deactivated: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
     },
     type: {
       type: DataTypes.STRING,

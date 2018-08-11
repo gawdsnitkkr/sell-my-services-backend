@@ -13,7 +13,13 @@ module.exports = {
 			
       models.seller.findOne({ where }).then(seller => {
         if (seller) {
-          resolve(seller);
+          resolve({
+            id: seller.dataValues.id,
+            mobile: seller.dataValues.mobile,
+            name: seller.dataValues.name,
+            email: seller.dataValues.email,
+            profileUrl: seller.dataValues.profileUrl
+          });
         } else {
           resolve(false);
         }

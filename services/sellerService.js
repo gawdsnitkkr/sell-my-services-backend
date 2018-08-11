@@ -1,17 +1,20 @@
-/**
- * Created by: Varun kumar
- * Date: 08 July, 2018
- *
- * A seller is the entity who sell his services through SellMyService app
- */
+const { OAuth2Client } = require('google-auth-library');
+const bcrypt = require('bcrypt');
+
+const logger = require('../modules/logger');
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config.js')[env];
+
+const googleSigninAuthClient = new OAuth2Client(config.googleSigninClientId);
 
 const { 
   doesSuchSellerExist, 
   doesSuchServiceExist 
 } = require('./validationService');
-const models = require('../models');
 
-const bcrypt = require('bcrypt');
+const { generateOTP } = require('./utilityService');
+
+const models = require('../models');
 
 module.exports = {
 
@@ -31,7 +34,13 @@ module.exports = {
                 models.seller.create({ 
                   email, latitude, longitude, password 
                 }).then(seller => {
-                  resolve(seller.dataValues);
+                  resolve({
+                    id: seller.dataValues.id,
+                    mobile: seller.dataValues.mobile,
+                    name: seller.dataValues.name,
+                    email: seller.dataValues.email,
+                    profileUrl: seller.dataValues.profileUrl
+                  });
                 }).catch((err) => {
                   console.error(
                     'Error signup sellerService:', err
@@ -69,7 +78,13 @@ module.exports = {
                 seller.dataValues.password
               ).then((res) => {
                 if (res === true) {
-                  resolve(seller.dataValues);
+                  resolve({
+                    id: seller.dataValues.id,
+                    mobile: seller.dataValues.mobile,
+                    name: seller.dataValues.name,
+                    email: seller.dataValues.email,
+                    profileUrl: seller.dataValues.profileUrl
+                  });
                 } else {
                   reject('Password mismatch');
                 }
@@ -89,6 +104,67 @@ module.exports = {
             reject('Server side error');
           });
       }
+    });
+  },
+
+  loginUsingGoogle: function({ idToken, latitude, longitude }) {
+    return new Promise((resolve, reject) => {
+      if (!idToken || !latitude || !longitude) {
+        return reject('Missing params');
+      }
+      googleSigninAuthClient.verifyIdToken({
+        idToken: idToken,
+        audience: config.googleSigninClientId
+      }).then(ticket => {
+        const payload = ticket.getPayload();
+
+        doesSuchSellerExist(payload.email)
+          .then(result => {
+            if (result) {
+              resolve(result);
+            } else { 
+              const seller = {
+                email: payload.email,
+                name: payload.name,
+                profileUrl: payload.picture,
+                password: generateOTP() + '', // converting to string
+                latitude: latitude,
+                longitude: longitude
+              };
+
+              bcrypt.hash(seller.password, 2).then((hash) => {
+                seller.password = hash;
+
+                // insert seller info to db
+                models.seller.create(seller).then(seller => {
+                  resolve({
+                    id: seller.dataValues.id,
+                    mobile: seller.dataValues.mobile,
+                    name: seller.dataValues.name,
+                    email: seller.dataValues.email,
+                    profileUrl: seller.dataValues.profileUrl
+                  });
+                }).catch((err) => {
+                  logger.error('Error signup sellerService:', err);
+                  reject('Server side error');
+                });
+              }).catch((err) => {
+                const errorMessage = 'Error signup '
+                        + 'sellerService encrypting password';
+                logger.error(errorMessage, err); // to-debug: err is not getting printed
+                reject('Server side error');
+              });             
+            }
+          }).catch(err => {
+            logger.error(
+              'Error loginUsingGoogle sellerService validation', err
+            );
+            reject('Server side error');
+          });
+      }).catch(err => {
+        logger.error(err);
+        reject('Server side error');
+      });
     });
   },
 

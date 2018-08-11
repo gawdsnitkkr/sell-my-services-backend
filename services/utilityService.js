@@ -28,10 +28,9 @@ module.exports = {
     return token;
   },
 
-  isInt: (value) => (
-    !isNaN(value) 
-    && (parseInt(Number(value)) === value) 
-    && (!isNaN(parseInt(value, 10)))
+  isInt: (value) => (!isNaN(value) 
+      && (parseInt(Number(value)) === value) 
+      && (!isNaN(parseInt(value, 10)))
   ),
 
   swapValues: (arr) => {
@@ -47,6 +46,14 @@ module.exports = {
     }).catch((err) => {
       console.error('Error saveRequestLog', err);
     });
+  },
+
+  generateOTP: () => {
+    // 6 digits OTP
+    const min = 100000;
+    const max = 999999;
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
 };

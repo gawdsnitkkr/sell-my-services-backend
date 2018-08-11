@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const indexRoutes = require('./routes/index');
 const searchRoutes = require('./routes/search');
 const sellerRoutes = require('./routes/seller');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth/');
 
 // middleware
 const middlewares = require('./middlewares');
@@ -40,7 +40,7 @@ app.use(cookieParser());
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-// app level middleware- logging POST Requests and parameters
+// app level middleware- logging Requests 
 app.use(middlewares.logRequest);
 
 /**
@@ -48,8 +48,10 @@ app.use(middlewares.logRequest);
  */
 app.use('/', indexRoutes);
 app.use('/search', searchRoutes);
-app.use('/seller', sellerRoutes);
-app.use('/auth', authRoutes); // token authentication in routes
+app.use('/sellers', sellerRoutes);
+
+// token authentication in routes
+app.use('/auth', authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

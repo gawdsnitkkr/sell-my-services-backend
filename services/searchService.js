@@ -1,10 +1,3 @@
-/**
- * Created by: Varun kumar
- * Date: 08 July, 2018
- *
- * All the controller methods to support '/search/'' routes
- */
-
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
