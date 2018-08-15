@@ -6,25 +6,26 @@ const config = require('../config/config.js')[env];
 
 const logger = require('../modules/logger');
 
-const utilityService = require('../services/utilityService');
-const sellerService = require('../services/sellerService');
+const { getToken } = require('./utility');
+const sellerController = require('../controllers/seller');
 
-router.post('/signup', (req, res) => {
+router.post('/google-token-signin', (req, res) => {
   const params = req.body;
-  sellerService.signup(params)
-    .then(seller => {
-      const token = utilityService.getToken(seller);
-      res.cookie(config.tokenName, token, { 
-        maxAge: config.tokenMaxAge, //30 * 24 * 60 * 60 (30 days) 
-        httpOnly: true 
-      });
-      res.json({
+  sellerController.loginUsingGoogle(params)
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode);
+      const token = getToken(seller);
+      const successObject = {
         success: true,
         result: seller
-      });
-    }).catch(err => {
-      if (typeof(err) != 'string') {
-        console.error('Error /seller/signup', err);
+      };
+      successObject[config.tokenName] = token;
+      successObject.expiresIn = config.tokenMaxAge;
+      res.json(successObject);
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('routes /sellers/google-token-signin', err);
         err = 'Server side error';
       }
       res.json({
@@ -36,35 +37,10 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res) => {
   const params = req.body;
-  sellerService.login(params)
-    .then(seller => { 
-      const token = utilityService.getToken(seller);
-      res.cookie(config.tokenName, token, { 
-        maxAge: config.tokenMaxAge, //30 * 24 * 60 * 60 (30 days) 
-        httpOnly: true 
-      });
-      res.json({
-        success: true,
-        result: seller
-      });
-    }).catch(err => {
-      if (typeof(err) != 'string') {
-        console.error('Error /seller/login', err);
-        err = 'Server side error';
-      }
-      res.json({
-        success: false,
-        message: err
-      });
-    });
-});
-
-router.post('/google-token-signin', (req, res) => {
-  const params = req.body;
-  sellerService.loginUsingGoogle(params)
+  sellerController.login(params)
     .then(([seller, responseCode]) => { 
       res.status(responseCode);
-      const token = utilityService.getToken(seller);
+      const token = getToken(seller);
       const successObject = {
         success: true,
         result: seller
@@ -75,7 +51,33 @@ router.post('/google-token-signin', (req, res) => {
     }).catch(([err, responseCode]) => {
       res.status(responseCode);
       if (typeof(err) !== 'string') {
-        logger.error('Error /seller/google-token-signin', err);
+        logger.error('routes /sellers/login', err);
+        err = 'Server side error';
+      }
+      res.json({
+        success: false,
+        message: err
+      });
+    });
+});
+
+router.post('/signup', (req, res) => {
+  const params = req.body;
+  sellerController.signup(params)
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode);
+      const token = getToken(seller);
+      const successObject = {
+        success: true,
+        result: seller
+      };
+      successObject[config.tokenName] = token;
+      successObject.expiresIn = config.tokenMaxAge;
+      res.json(successObject);
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('routes /sellers/signup', err);
         err = 'Server side error';
       }
       res.json({

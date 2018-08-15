@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
 
-const utilityService = require('../services/utilityService');
+const { saveRequestLog } = require('../services/utility');
 const logger = require('../modules/logger');
 
 const statusCode = require('../constants/statusCode');
@@ -34,7 +34,7 @@ module.exports = {
      * so saving it into database
      */
     if (url.indexOf('/search/sellers') >= 0) {
-      utilityService.saveRequestLog({
+      saveRequestLog({
         ipAddress: ipAddress,
         url: url,
         body: JSON.stringify(body)
@@ -53,7 +53,7 @@ module.exports = {
       // verifies secret and checks exp
       jwt.verify(token, config.superSecret, (err, decoded) => {      
         if (err) {
-          res.status(statusCode.SC_UNAUTHORIZED)
+          res.status(statusCode.UNAUTHORIZED)
             .json({
               success: false,
               message: 'Failed to authenticate'
@@ -66,11 +66,12 @@ module.exports = {
           // so that entity can perform database operations (RUD) 
           // only on his data
           req.body.email = decoded.email;
+          req.body.id = decoded.id;
           next();
         }
       });
     } else {
-      res.status(statusCode.SC_UNAUTHORIZED);
+      res.status(statusCode.UNAUTHORIZED);
       res.json({
         success: false,
         message: 'Not Authorized'

@@ -3,11 +3,11 @@ const router = express.Router();
 
 const logger = require('../modules/logger');
 
-const { searchSellers } = require('../services/searchService');
+const searchController = require('../controllers/search');
 
 router.get('/sellers', (req, res) => {
   const params = req.query;
-  searchSellers(params)
+  searchController.searchSellers(params)
     .then(([sellers, responseCode]) => { 
       res.status(responseCode);
       res.json({
@@ -17,7 +17,7 @@ router.get('/sellers', (req, res) => {
     }).catch(([err, responseCode]) => {
       if (typeof(err) !== 'string') {
         res.status(responseCode);
-        logger.error('Error /search/sellers', err); // todo: err is not getting printed
+        logger.error('routes /search/sellers', err); // todo: err is not getting printed
         err = 'Server side error';
       } 
       res.json({
