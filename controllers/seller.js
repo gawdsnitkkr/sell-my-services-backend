@@ -1,4 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
+const bcrypt = require('bcrypt');
 
 const sellerService = require('../services/seller');
 const statusCode = require('../constants/statusCode');
@@ -30,7 +31,17 @@ module.exports = {
         doesSuchSellerExist(payload.email)
           .then(result => {
             if (result) {
-              resolve([result, statusCode.OK]);
+              result = result.dataValues;
+              return resolve([
+                {
+                  id: result.id,
+                  mobile: result.mobile,
+                  name: result.name,
+                  email: result.email,
+                  profilePic: result.profilePic
+                },
+                statusCode.OK
+              ]);
             } else { 
               const seller = {
                 email: payload.email,
@@ -43,7 +54,7 @@ module.exports = {
 
               sellerService.createSeller(seller)
                 .then((seller) => {
-                  resolve([
+                  return resolve([
                     {
                       id: seller.id,
                       mobile: seller.mobile,
@@ -54,22 +65,171 @@ module.exports = {
                     statusCode.CREATED
                   ]);
                 }).catch((err) => {
-                  logger.error('controller createSeller:', err);
-                  reject([
+                  logger.error(
+                    'controller createSeller loginUsingGoogle:', err
+                  );
+                  return reject([
                     'Server side error', statusCode.INTERNAL_SERVER_ERROR
                   ]);
                 });            
             }
           }).catch(err => {
             logger.error(
-              'controller doesSuchSellerExist:', err
+              'controller doesSuchSellerExist loginUsingGoogle:', err
             );
-            reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+            return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
           });
       }).catch(err => {
         logger.error('controller googleSigninAuthClient.verifyIdToken', err);
-        reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+        return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
       });
+    });
+  },
+
+  login: (params) => {
+    return new Promise((resolve, reject) => {
+      const { email, password } = params;
+      if (!email || !password) {
+        return reject(['Missing params', statusCode.BAD_REQUEST]);
+      }
+
+      doesSuchSellerExist(email)
+        .then(result => {
+          if (result) {
+            result = result.dataValues;
+            bcrypt.hash(password, 2).then((hash) => {
+              if (hash === result.password) {
+                return resolve([
+                  {
+                    id: result.id,
+                    mobile: result.mobile,
+                    name: result.name,
+                    email: result.email,
+                    profilePic: result.profilePic
+                  },
+                  statusCode.OK
+                ]);
+              } else {
+                return reject([
+                  'Wrong password', statusCode.UNAUTHORIZED
+                ]);
+              }
+            });
+          } else { 
+            return reject([
+              'No such user exists', statusCode.UNAUTHORIZED
+            ]);           
+          }
+        }).catch(err => {
+          logger.error(
+            'controller doesSuchSellerExist login:', err
+          );
+          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+        });
+    });
+  },
+
+  signup: (params) => {
+    return new Promise((resolve, reject) => {
+      const { email, password, latitude, longitude } = params;
+      if (!email || !password || !latitude || !longitude) {
+        return reject(['Missing params', statusCode.BAD_REQUEST]);
+      }
+
+      doesSuchSellerExist(email)
+        .then(result => {
+          if (result) {
+            return reject([
+              'User already exists. Try login', statusCode.BAD_REQUEST
+            ]);
+          } else { 
+            const seller = { email, password, latitude, longitude };
+
+            sellerService.createSeller(seller)
+              .then((seller) => {
+                return resolve([
+                  {
+                    id: seller.id,
+                    email: seller.email
+                  },
+                  statusCode.CREATED
+                ]);
+              }).catch((err) => {
+                logger.error('controller createSeller signup:', err);
+                return reject([
+                  'Server side error', statusCode.INTERNAL_SERVER_ERROR
+                ]);
+              });            
+          }
+        }).catch(err => {
+          logger.error(
+            'controller doesSuchSellerExist signup:', err
+          );
+          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+        });
+    });
+  },
+
+  getSeller: ({ email }) => {
+    return new Promise((resolve, reject) => {
+      if (!email) {
+        return reject(['Missing params', statusCode.BAD_REQUEST]);
+      }
+
+      doesSuchSellerExist(email)
+        .then(result => {
+          if (result) {
+            result = result.dataValues;
+            delete result.password;
+            return resolve([
+              result, statusCode.OK
+            ]);
+          } else { 
+            return resolve([
+              {}, statusCode.OK
+            ]);           
+          }
+        }).catch(err => {
+          logger.error(
+            'controller doesSuchSellerExist getSeller:', err
+          );
+          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+        });
+    });
+  },
+
+  updateSeller: (params) => {
+    return new Promise((resolve, reject) => {
+      if (!params.id && !params.email) {
+        return reject(['Missing params', statusCode.BAD_REQUEST]);
+      }
+
+      doesSuchSellerExist(params.email)
+        .then(result => {
+          if (result) {
+            sellerService.updateSeller(params)
+              .then((seller) => {
+                delete seller.password;
+                return resolve([
+                  seller, statusCode.OK
+                ]);
+              }).catch((err) => {
+                logger.error(
+                  'controller updateSeller:', err
+                );
+                return reject([
+                  'Server side error', statusCode.INTERNAL_SERVER_ERROR
+                ]);
+              })
+          } else { 
+            return reject(['No such Sellecr Exist', statusCode.BAD_REQUEST]);           
+          }
+        }).catch(err => {
+          logger.error(
+            'controller doesSuchSellerExist updateSeller:', err
+          );
+          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+        });
     });
   }
 }

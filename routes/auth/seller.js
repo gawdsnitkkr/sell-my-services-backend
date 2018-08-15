@@ -1,22 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
-/*const sellerService = require('../../services/sellerService');
+const logger = require('../../modules/logger');
+const sellerController = require('../../controllers/seller');
 
-// Get all the sellers
+/**
+ * This route will fetch seller profile and not all sellers because it'll be 
+ * used by seller.
+ * todo: setup admin routes to fetch all sellers
+ */
 router.get('/sellers', (req, res) => {
-  // TODO: Provide pagination and allow to fetch previous
-  // and next pages
-  const params = req.query;
-  sellerService.getSeller(params)
-    .then(seller => { 
-      res.json({
-        success: true,
-        result: seller
-      });
-    }).catch(err => {
-      if (typeof(err) != 'string') {
-        console.error('Error /auth/seller/get', err);
+  const params = {
+    id: req.decoded.id,
+    email: req.decoded.email
+  };
+  sellerController.getSeller(params)
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode)
+        .json({
+          success: true,
+          result: seller
+        });
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('routes /auth/sellers GET', err);
         err = 'Server side error';
       }
       res.json({
@@ -27,18 +35,22 @@ router.get('/sellers', (req, res) => {
 });
 
 
-// Update information of a seller
+// Update seller profile
 router.put('/sellers', (req, res) => {
   const params = req.body;
-  sellerService.updateSeller(params)
-    .then(seller => { 
-      res.json({
-        success: true,
-        result: seller
-      });
-    }).catch(err => {
-      if (typeof(err) != 'string') {
-        console.error('Error /auth/seller/update/profile', err);
+  params.id = req.decoded.id;
+  params.email = req.decoded.email;
+  sellerController.updateSeller(params)
+    .then(([seller, responseCode]) => { 
+      res.status(responseCode)
+        .json({
+          success: true,
+          result: seller
+        });
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('routes /auth/sellers PUT', err);
         err = 'Server side error';
       }
       res.json({
@@ -46,6 +58,6 @@ router.put('/sellers', (req, res) => {
         message: err
       });
     });
-});*/
+});
 
 module.exports = router;
