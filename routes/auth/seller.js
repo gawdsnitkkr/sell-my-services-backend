@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const sellerService = require('../../services/sellerService');
+/*const sellerService = require('../../services/sellerService');
 
 // Get all the sellers
 router.get('/sellers', (req, res) => {
@@ -46,6 +46,6 @@ router.put('/sellers', (req, res) => {
         message: err
       });
     });
-});
+});*/
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const sellerService = require('../../services/sellerService');
+/*const sellerService = require('../../services/sellerService');
 
 // Create a new Service
 router.post('/services', (req, res) => {
@@ -45,6 +45,6 @@ router.put('/services', (req, res) => {
         message: err
       });
     });
-});
+});*/
 
 module.exports = router;
