@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { requireParameters } = require('../middlewares');
+
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
 
@@ -9,7 +11,8 @@ const logger = require('../modules/logger');
 const { getToken } = require('./utility');
 const sellerController = require('../controllers/seller');
 
-router.post('/google-token-signin', (req, res) => {
+const googleParams = requireParameters(['longitude', 'latitude', 'idToken']);
+router.post('/google-token-signin', googleParams, (req, res) => {
   const params = req.body;
   sellerController.loginUsingGoogle(params)
     .then(([seller, responseCode]) => { 
@@ -35,7 +38,7 @@ router.post('/google-token-signin', (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', requireParameters(['email', 'password']), (req, res) => {
   const params = req.body;
   sellerController.login(params)
     .then(([seller, responseCode]) => { 
@@ -61,7 +64,10 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.post('/signup', (req, res) => {
+const signupParams = requireParameters(
+  ['latitude', 'longitude', 'email', 'password']
+);
+router.post('/signup', signupParams, (req, res) => {
   const params = req.body;
   sellerController.signup(params)
     .then(([seller, responseCode]) => { 

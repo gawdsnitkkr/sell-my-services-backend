@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { requireParameters } = require('../../middlewares');
 
 const logger = require('../../modules/logger');
 const serviceController = require('../../controllers/service');
 
-router.post('/services', (req, res) => {
+router.post('/services', requireParameters(['name']), (req, res) => {
   const params = req.body;
   params.sellerId = req.decoded.id;
   params.sellerEmail = req.decoded.email;
@@ -58,7 +59,7 @@ router.get('/services', (req, res) => {
 
 
 // Update seller service
-router.put('/services', (req, res) => {
+router.put('/services', requireParameters(['id']), (req, res) => {
   const params = req.body;
   params.sellerId = req.decoded.id;
   params.sellerEmail = req.decoded.email;

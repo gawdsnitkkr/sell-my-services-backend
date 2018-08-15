@@ -77,5 +77,22 @@ module.exports = {
         message: 'Not Authorized'
       });
     }
+  },
+
+  requireParameters: function(paramList) {
+    return function(req, res, next) {
+      const { body, query } = req;
+
+      for(let i = 0; i < paramList.length; i++) {
+        const param = paramList[i];
+        if(!body.hasOwnProperty(param) && !query.hasOwnProperty(param)) {
+          return res.status(statusCode.BAD_REQUEST).json({
+            success: false,
+            message: `${param} is required`
+          });          
+        }
+      }
+      return next();
+    };
   }
 };

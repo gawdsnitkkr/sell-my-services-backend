@@ -9,9 +9,6 @@ module.exports = {
 
   createService: (params) => {
     return new Promise((resolve, reject) => {
-      if (!params.sellerId || !params.name || !params.sellerEmail) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
       doesSuchSellerExist(params.sellerEmail)
         .then(result => {
           if (result) {
@@ -49,9 +46,6 @@ module.exports = {
   getServices: (params) => {
     return new Promise((resolve, reject) => {
       const { id, sellerEmail, sellerId } = params;
-      if (!sellerEmail || !sellerId) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
       if (id) {
         doesSuchServiceExist(id, sellerEmail)
           .then((service) => {
@@ -89,9 +83,6 @@ module.exports = {
   updateService: (params) => {
     return new Promise((resolve, reject) => {
       const { id, sellerEmail } = params;
-      if (!id || !sellerEmail) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
       doesSuchServiceExist(id, sellerEmail)
         .then((service) => {
           if (service) {
