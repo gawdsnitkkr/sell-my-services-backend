@@ -1,3 +1,6 @@
+We follow fork-pull workflow, to make changes to the codebbase.  ([more info here](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow))
+
+
 ### Folder Structure
 
 1. **bin**: It contains the main file 'www' which starts node server
