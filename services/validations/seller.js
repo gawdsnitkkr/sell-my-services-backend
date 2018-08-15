@@ -3,7 +3,7 @@ const models = require('../../models');
 module.exports = {
 
   doesSuchSellerExist: (email) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const where = { email };
 			
       models.seller.findOne({ where }).then(seller => {

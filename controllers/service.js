@@ -2,10 +2,8 @@ const serviceService = require('../services/service');
 const statusCode = require('../constants/statusCode');
 const logger = require('../modules/logger');
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.js')[env];
-
 const { doesSuchServiceExist } = require('../services/validations/service');
+const { doesSuchSellerExist } = require('../services/validations/seller');
 
 module.exports = {
 
@@ -37,7 +35,9 @@ module.exports = {
           logger.error(
             'controller doesSuchSellerExist createService:', err
           );
-          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
         });
     });
   },
@@ -48,7 +48,7 @@ module.exports = {
    */
   getServices: (params) => {
     return new Promise((resolve, reject) => {
-      const { id, sellerEmail } = params;
+      const { id, sellerEmail, sellerId } = params;
       if (!sellerEmail || !sellerId) {
         return reject(['Missing params', statusCode.BAD_REQUEST]);
       }
@@ -121,4 +121,4 @@ module.exports = {
         });
     });
   }
-}
+};

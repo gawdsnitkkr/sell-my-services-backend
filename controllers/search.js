@@ -9,7 +9,7 @@ const { swapValues } = require('./utility');
 
 module.exports = {
 
-	searchSellers: (params) => {
+  searchSellers: (params) => {
     return new Promise((resolve, reject) => {
       const { latitude, longitude, searchText } = params;
       if (!latitude || !longitude || !searchText) {
@@ -48,4 +48,4 @@ module.exports = {
         });
     });
   }
-}
+};

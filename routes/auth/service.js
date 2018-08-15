@@ -5,7 +5,7 @@ const logger = require('../../modules/logger');
 const serviceController = require('../../controllers/service');
 
 router.post('/services', (req, res) => {
-  const params = request.body;
+  const params = req.body;
   params.sellerId = req.decoded.id;
   params.sellerEmail = req.decoded.email;
 

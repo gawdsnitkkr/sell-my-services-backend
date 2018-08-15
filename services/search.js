@@ -6,7 +6,7 @@ const models = require('../models');
 module.exports = {
 
   searchSellers: ({ latitudeRange, longitudeRange, searchText }) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const fullTextSearchQuery = 
           `MATCH (services.name, tags) AGAINST ("'${searchText}'")`;
 

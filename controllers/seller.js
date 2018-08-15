@@ -77,7 +77,9 @@ module.exports = {
             logger.error(
               'controller doesSuchSellerExist loginUsingGoogle:', err
             );
-            return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+            return reject([
+              'Server side error', statusCode.INTERNAL_SERVER_ERROR
+            ]);
           });
       }).catch(err => {
         logger.error('controller googleSigninAuthClient.verifyIdToken', err);
@@ -124,7 +126,9 @@ module.exports = {
           logger.error(
             'controller doesSuchSellerExist login:', err
           );
-          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
         });
     });
   },
@@ -165,7 +169,9 @@ module.exports = {
           logger.error(
             'controller doesSuchSellerExist signup:', err
           );
-          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
         });
     });
   },
@@ -193,7 +199,9 @@ module.exports = {
           logger.error(
             'controller doesSuchSellerExist getSeller:', err
           );
-          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
         });
     });
   },
@@ -220,16 +228,20 @@ module.exports = {
                 return reject([
                   'Server side error', statusCode.INTERNAL_SERVER_ERROR
                 ]);
-              })
+              });
           } else { 
-            return reject(['No such Sellecr Exist', statusCode.BAD_REQUEST]);           
+            return reject([
+              'No such Seller Exist', statusCode.BAD_REQUEST
+            ]);           
           }
         }).catch(err => {
           logger.error(
             'controller doesSuchSellerExist updateSeller:', err
           );
-          return reject(['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
         });
     });
   }
-}
+};

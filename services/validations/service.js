@@ -3,7 +3,7 @@ const models = require('../../models');
 module.exports = {
 
   doesSuchServiceExist: ({ serviceId, email  }) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const condition = {
         id: serviceId
       };
