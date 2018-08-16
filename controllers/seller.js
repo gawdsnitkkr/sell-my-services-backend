@@ -93,8 +93,8 @@ module.exports = {
         .then(result => {
           if (result) {
             result = result.dataValues;
-            bcrypt.hash(password, 2).then((hash) => {
-              if (hash === result.password) {
+            bcrypt.compare(password, result.password).then((res) => {
+              if (res) {
                 return resolve([
                   {
                     id: result.id,

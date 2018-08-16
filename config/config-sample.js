@@ -11,7 +11,8 @@ module.exports = {
     'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
     'tokenName': 'authToken',
     'logLevel': 'debug',
-    'googleSigninClientId': ''
+    'googleSigninClientId': '',
+    'bcryptSaltRounds': 2
   },
   'production': {
     'username': process.env.DATABASE_USERNAME || 'DATABASE_USERNAME',
@@ -25,6 +26,7 @@ module.exports = {
     'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
     'tokenName': 'authToken',
     'logLevel': 'debug',
-    'googleSigninClientId': ''
+    'googleSigninClientId': '',
+    'bcryptSaltRounds': 2
   }
 };

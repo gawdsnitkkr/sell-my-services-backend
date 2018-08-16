@@ -11,8 +11,11 @@ const logger = require('../modules/logger');
 const { getToken } = require('./utility');
 const sellerController = require('../controllers/seller');
 
-const googleParams = requireParameters(['longitude', 'latitude', 'idToken']);
-router.post('/google-token-signin', googleParams, (req, res) => {
+
+const requiredGoogleSigninParams = 
+    requireParameters(['longitude', 'latitude', 'idToken']);
+
+router.post('/google-token-signin', requiredGoogleSigninParams, (req, res) => {
   const params = req.body;
   sellerController.loginUsingGoogle(params)
     .then(([seller, responseCode]) => { 
@@ -64,10 +67,12 @@ router.post('/login', requireParameters(['email', 'password']), (req, res) => {
     });
 });
 
-const signupParams = requireParameters(
-  ['latitude', 'longitude', 'email', 'password']
-);
-router.post('/signup', signupParams, (req, res) => {
+
+const requiredSignupParams = requireParameters([
+  'latitude', 'longitude', 'email', 'password'
+]);
+
+router.post('/signup', requiredSignupParams, (req, res) => {
   const params = req.body;
   sellerController.signup(params)
     .then(([seller, responseCode]) => { 
