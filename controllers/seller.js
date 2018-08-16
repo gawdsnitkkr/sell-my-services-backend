@@ -18,9 +18,6 @@ module.exports = {
   loginUsingGoogle: (params) => {
     return new Promise((resolve, reject) => {
       const { idToken, latitude, longitude } = params;
-      if (!idToken || !latitude || !longitude) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
 
       googleSigninAuthClient.verifyIdToken({
         idToken: idToken,
@@ -91,9 +88,6 @@ module.exports = {
   login: (params) => {
     return new Promise((resolve, reject) => {
       const { email, password } = params;
-      if (!email || !password) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
 
       doesSuchSellerExist(email)
         .then(result => {
@@ -136,9 +130,6 @@ module.exports = {
   signup: (params) => {
     return new Promise((resolve, reject) => {
       const { email, password, latitude, longitude } = params;
-      if (!email || !password || !latitude || !longitude) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
 
       doesSuchSellerExist(email)
         .then(result => {
@@ -178,10 +169,6 @@ module.exports = {
 
   getSeller: ({ email }) => {
     return new Promise((resolve, reject) => {
-      if (!email) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
-
       doesSuchSellerExist(email)
         .then(result => {
           if (result) {
@@ -208,10 +195,6 @@ module.exports = {
 
   updateSeller: (params) => {
     return new Promise((resolve, reject) => {
-      if (!params.id && !params.email) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
-
       doesSuchSellerExist(params.email)
         .then(result => {
           if (result) {

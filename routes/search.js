@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const { requireParameters } = require('../middlewares');
 
 const logger = require('../modules/logger');
 
 const searchController = require('../controllers/search');
 
-router.get('/sellers', (req, res) => {
+const paramMiddle = requireParameters(['longitude', 'latitude', 'searchText']);
+router.get('/sellers', paramMiddle, (req, res) => {
   const params = req.query;
   searchController.searchSellers(params)
     .then(([sellers, responseCode]) => { 
@@ -25,7 +27,6 @@ router.get('/sellers', (req, res) => {
         message: err
       });
     });
-    
 });
 
 module.exports = router;

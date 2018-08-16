@@ -12,9 +12,6 @@ module.exports = {
   searchSellers: (params) => {
     return new Promise((resolve, reject) => {
       const { latitude, longitude, searchText } = params;
-      if (!latitude || !longitude || !searchText) {
-        return reject(['Missing params', statusCode.BAD_REQUEST]);
-      }
 
       /**
        * A threshold = 0.3 gives a distance range ~ 47 KM
