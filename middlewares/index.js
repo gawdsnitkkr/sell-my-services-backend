@@ -83,15 +83,22 @@ module.exports = {
     return function(req, res, next) {
       const { body, query } = req;
 
-      for(let i = 0; i < paramList.length; i++) {
-        const param = paramList[i];
-        if(!body.hasOwnProperty(param) && !query.hasOwnProperty(param)) {
-          return res.status(statusCode.BAD_REQUEST).json({
-            success: false,
-            message: `${param} is required`
-          });          
+      const missing = {};
+
+      paramList.forEach(param => {
+        if (!body.hasOwnProperty(param) && !query.hasOwnProperty(param)) {
+          missing[param] = `${param} is required`;
         }
+      });
+
+      if (Object.keys(missing).length !== 0) {
+        return res.status(statusCode.BAD_REQUEST).json({
+          success: false,
+          message: 'missing params',
+          errors: missing
+        });
       }
+
       return next();
     };
   }
