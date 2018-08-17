@@ -1,12 +1,15 @@
 const bcrypt = require('bcrypt');
 
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config.js')[env];
+
 const models = require('../models');
 
 module.exports = {
 
   createSeller: (seller) => {
     return new Promise((resolve) => {
-      bcrypt.hash(seller.password, 2).then((hash) => {
+      bcrypt.hash(seller.password, config.bcryptSaltRounds).then((hash) => {
         seller.password = hash;
 
         // insert seller info to db
@@ -27,13 +30,14 @@ module.exports = {
         if (seller) {
           // update password
           if (params.password) {
-            bcrypt.hash(params.password, 2).then((hash) => {
-              params.password = hash;
-              seller.updateAttributes(params)
-                .then(seller => {
-                  resolve(seller.dataValues);
-                });
-            });
+            bcrypt.hash(params.password, config.bcryptSaltRounds)
+              .then((hash) => {
+                params.password = hash;
+                seller.updateAttributes(params)
+                  .then(seller => {
+                    resolve(seller.dataValues);
+                  });
+              });
           } else {
             seller.updateAttributes(params)
               .then(seller => {
