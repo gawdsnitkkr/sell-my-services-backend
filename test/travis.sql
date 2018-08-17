@@ -1,5 +1,27 @@
-DROP TABLE IF EXISTS `requestLogs`;
+-- MySQL dump 10.13  Distrib 5.6.16, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: sellMyServices
+-- ------------------------------------------------------
+-- Server version	5.6.16-1~exp1
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `requestLogs`
+--
+
+DROP TABLE IF EXISTS `requestLogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `requestLogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ipAddress` varchar(255) NOT NULL,
@@ -8,39 +30,42 @@ CREATE TABLE `requestLogs` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-LOCK TABLES `requestLogs` WRITE;
-INSERT INTO `requestLogs` VALUES (1,'::ffff:192.168.43.1','/search/sellers','[object Object]','2018-07-24 16:47:18','2018-07-24 16:47:18'),(2,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":0,\"longitude\":0,\"searchText\":\"bai\"}','2018-07-24 16:50:02','2018-07-24 16:50:02'),(3,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":0,\"longitude\":0,\"searchText\":\"bai\"}','2018-07-24 16:54:02','2018-07-24 16:54:02'),(4,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.9473942,\"longitude\":77.6812897,\"searchText\":\"test\"}','2018-07-26 15:40:12','2018-07-26 15:40:12'),(5,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.9473942,\"longitude\":77.6812897,\"searchText\":\"ok google show me this\"}','2018-07-26 16:10:02','2018-07-26 16:10:02'),(6,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.9473942,\"longitude\":77.6812897,\"searchText\":\"ok google show me this\"}','2018-07-26 16:31:37','2018-07-26 16:31:37'),(7,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.9473942,\"longitude\":77.6812897,\"searchText\":\"ok google show me this\"}','2018-07-26 17:24:05','2018-07-26 17:24:05'),(8,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 17:05:40','2018-07-27 17:05:40'),(9,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 17:07:01','2018-07-27 17:07:01'),(10,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 17:09:21','2018-07-27 17:09:21'),(11,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 17:15:30','2018-07-27 17:15:30'),(12,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 17:19:11','2018-07-27 17:19:11'),(13,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 18:13:18','2018-07-27 18:13:18'),(14,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"ok google show me this\"}','2018-07-27 18:13:42','2018-07-27 18:13:42'),(15,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"ok google show me this\"}','2018-07-27 18:13:57','2018-07-27 18:13:57'),(16,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"random\"}','2018-07-27 18:14:18','2018-07-27 18:14:18'),(17,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"gawds\"}','2018-07-27 18:14:26','2018-07-27 18:14:26'),(18,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 18:22:03','2018-07-27 18:22:03'),(19,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 18:23:09','2018-07-27 18:23:09'),(20,'::ffff:192.168.43.1','/search/sellers','{\"latitude\":12.94527321,\"longitude\":77.68042459,\"searchText\":\"test\"}','2018-07-27 18:26:52','2018-07-27 18:26:52');
-UNLOCK TABLES;
-
+--
+-- Table structure for table `sellers`
+--
 
 DROP TABLE IF EXISTS `sellers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sellers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mobile` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `gender` varchar(255) NOT NULL DEFAULT 'male',
   `email` varchar(255) NOT NULL,
+  `profilePic` varchar(512) DEFAULT NULL,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
-  `deactivated` tinyint(1) NOT NULL DEFAULT '0',
   `type` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-LOCK TABLES `sellers` WRITE;
-
-INSERT INTO `sellers` VALUES (1,'7206479844','Varun','male','varunon9@gmail.com',13,77.4,0,NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'7206479844','Varun2','male','varunon99@gmail.com',13.2,77.8,0,NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00'),(3,'7206479844','Varun3','male','varunon999@gmail.com',13.2,77.6,0,NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00');
-UNLOCK TABLES;
-
+--
+-- Table structure for table `serviceCategories`
+--
 
 DROP TABLE IF EXISTS `serviceCategories`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `serviceCategories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -49,20 +74,22 @@ CREATE TABLE `serviceCategories` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-LOCK TABLES `serviceCategories` WRITE;
-
-UNLOCK TABLES;
-
+--
+-- Table structure for table `services`
+--
 
 DROP TABLE IF EXISTS `services`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` varchar(255) DEFAULT NULL,
   `description` text,
   `tags` varchar(255) DEFAULT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `sellerId` int(11) DEFAULT NULL,
@@ -73,10 +100,16 @@ CREATE TABLE `services` (
   FULLTEXT KEY `serviceSearchIndex` (`name`,`tags`),
   CONSTRAINT `services_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `sellers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `services_ibfk_2` FOREIGN KEY (`serviceCategoryId`) REFERENCES `serviceCategories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-LOCK TABLES `services` WRITE;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `services` VALUES (1,'test',NULL,'test description','ok, google, gawds','0000-00-00 00:00:00','0000-00-00 00:00:00',1,NULL),(2,'test',NULL,'test2 description','random','0000-00-00 00:00:00','0000-00-00 00:00:00',2,NULL),(3,'test',NULL,'test3 description','captain, merica, india','0000-00-00 00:00:00','0000-00-00 00:00:00',3,NULL);
-
-UNLOCK TABLES;
+-- Dump completed on 2018-08-17 21:29:15

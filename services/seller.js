@@ -8,7 +8,8 @@ const models = require('../models');
 module.exports = {
 
   createSeller: async seller => {
-    seller.password = await bcrypt.hash(seller.password, config.bcryptSaltRounds);
+    seller.password = 
+        await bcrypt.hash(seller.password, config.bcryptSaltRounds);
     const { dataValues } = await models.seller.create(seller);
     return dataValues;
   },
@@ -26,7 +27,8 @@ module.exports = {
 
     // update password
     if (params.password) {
-      params.password = await bcrypt.hash(params.password, config.bcryptSaltRounds);
+      params.password = 
+          await bcrypt.hash(params.password, config.bcryptSaltRounds);
     }
 
     const { dataValues } =  await seller.updateAttributes(params);
