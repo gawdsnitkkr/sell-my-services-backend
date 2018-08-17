@@ -8,10 +8,10 @@ const models = require('../models');
 module.exports = {
 
   createSeller: (seller) => {
-    const hash = bcrypt.hashSync(seller.password, config.bcryptSaltRounds);
-    seller.password = hash;
-
-    return models.seller.create(seller).then(seller => seller.dataValues);
+    return bcrypt.hash(seller.password, config.bcryptSaltRounds).then(hash => {
+      seller.password = hash;
+      return models.seller.create(seller).then(seller => seller.dataValues);
+    });
   },
 
   updateSeller: params => {
@@ -19,14 +19,14 @@ module.exports = {
       where: {
         id: params.id
       }
-    }).then(seller => {
+    }).then(async seller => {
       if (!seller) {
         throw ('No such seller Exist');
       }
 
       // update password
       if (params.password) {
-        params.password = bcrypt.hashSync(params.password, config.bcryptSaltRounds);
+        params.password = await bcrypt.hash(params.password, config.bcryptSaltRounds);
       }
 
       return seller.updateAttributes(params).then(seller => seller.dataValues);
