@@ -1,8 +1,3 @@
-/**
- * Created by: Varun kumar
- * Date: 08 July, 2018
- */
-
 const express = require('express');
 const path = require('path');
 
