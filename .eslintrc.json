@@ -9,7 +9,8 @@
   },
   "globals": {
     "describe": true,
-    "it": true
+    "it": true,
+    "before": true
   },
   "rules": {
     "indent": [
