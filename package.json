@@ -6,7 +6,8 @@
   "main": "./bin/www",
   "scripts": {
     "start": "export NODE_ENV=production && pm2 start ./bin/www",
-    "test": "./node_modules/.bin/eslint . && mocha test/**/*.js"
+    "test": "./node_modules/.bin/eslint . && mocha test/**/*.js",
+    "generate-travis.sql": "mysqldump -u root -p --no-data sellMyServices > test/travis.sql"
   },
   "keywords": [
     "sell-my-services",
