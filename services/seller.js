@@ -33,5 +33,15 @@ module.exports = {
 
     const { dataValues } =  await seller.updateAttributes(params);
     return dataValues;
+  },
+
+  getSellerById: async id => {
+    const seller = await models.seller.findOne({
+      where: {
+        id
+      }
+    });
+
+    return seller ? seller.dataValues : null;
   }
 };
