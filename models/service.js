@@ -27,6 +27,29 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true
+    },
+    rating: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0.0
+    },
+    lastRatingId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
+    rating_count: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     timestamp: true,
@@ -40,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Service.associate = function(models) {
-    Service.belongsTo(models.seller);
+    Service.belongsTo(models.user);
     Service.belongsTo(models.serviceCategory);
   };
 

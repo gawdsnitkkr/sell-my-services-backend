@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  var Seller = sequelize.define('seller', {
+  var User = sequelize.define('user', {
     id: { 
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -11,7 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
-    name: {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastName: {
       type: DataTypes.STRING,
       allowNull: true
     },
@@ -29,34 +33,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(512),
       allowNull: true
     },
-    latitude: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    longitude: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     password: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true
-    }
   }, {
     timestamp: true
   });
 
-  Seller.associate = function(models) {
-    Seller.hasMany(models.service);
+  User.associate = function(models) {
+    User.hasMany(models.service);
+    User.hasMany(models.rating);
   };  
 	
-  return Seller;
+  return User;
 };
