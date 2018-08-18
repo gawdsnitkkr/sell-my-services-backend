@@ -30,8 +30,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     rating: {
       type: DataTypes.FLOAT,
-      allowNull: false,
-      defaultValue: 0.0
+      allowNull: true
     },
     lastRatingId: {
       type: DataTypes.INTEGER,
@@ -46,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.FLOAT,
       allowNull: true
     },
-    rating_count: {
+    ratingCount: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
