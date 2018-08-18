@@ -11,6 +11,7 @@ const config = require('../config/config.js')[env];
 const googleSigninAuthClient = new OAuth2Client(config.googleSigninClientId);
 
 const { doesSuchSellerExist } = require('../services/validations/seller');
+const { getSellerById } = require('../services/seller');
 const { generateOTP } = require('./utility');
 
 module.exports = {
@@ -167,6 +168,19 @@ module.exports = {
     });
   },
 
+  getSellerById: id => {
+    return getSellerById(id).then(seller => {
+      if (!seller) {
+        return ['Seller does not exist', statusCode.NOT_FOUND];
+      }
+
+      return [seller, statusCode.OK];
+    }).catch(err => {
+      logger.error('controller getSellerById', err);
+      throw (['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
+    });
+  },
+
   getSeller: ({ email }) => {
     return new Promise((resolve, reject) => {
       doesSuchSellerExist(email)
@@ -194,7 +208,13 @@ module.exports = {
   },
 
   updateSeller: (params) => {
+    const { id, decodedId } = params;
     return new Promise((resolve, reject) => {
+      if (id != decodedId) {
+        // You can not update other seller's information
+        return reject(['Not authorized', statusCode.FORBIDDEN]);
+      }
+
       doesSuchSellerExist(params.email)
         .then(result => {
           if (result) {
