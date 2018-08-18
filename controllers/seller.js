@@ -177,7 +177,7 @@ module.exports = {
       return [seller, statusCode.OK];
     }).catch(err => {
       logger.error('controller getSellerById', err);
-      throw (['Servier side error', statusCode.INTERNAL_SERVER_ERROR]);
+      throw (['Server side error', statusCode.INTERNAL_SERVER_ERROR]);
     });
   },
 
