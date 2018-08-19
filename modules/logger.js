@@ -1,8 +1,7 @@
-const winston = require('winston');
+const bunyan = require('bunyan');
 const fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.js')[env];
 
 const logDirectory = 'logs';
 
@@ -11,47 +10,38 @@ if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
 }
 
-let logTransport;
+let streams;
 if (env === 'development') {
-  logTransport = new winston.transports.Console({
-    level: config.logLevel,
-    handleExceptions: true
-  });
+  streams = [
+    {
+      level: 'debug',
+      stream: process.stdout
+    }
+  ];
 } else {
-  logTransport = new winston.transports.File({
-    level: config.logLevel,
-    filename: './logs/all-logs.log',
-    handleExceptions: true,
-    maxsize: 5242880, // 5MB
-    maxFiles: 5
-  });
+  streams = [
+    {
+      level: 'info',
+      path: `./${logDirectory}/info.log` // log INFO and above to a file
+    },
+    {
+      level: 'error',
+      path: `./${logDirectory}/error.log` // log ERROR and above to a file
+    }
+  ];
 }
 
 /**
- * Log levels- error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5
- * here winston.format.json() is not working in production but not issue
+ * Log levels- fatal(60), error(50), warn(40), info(30), debug(20), trace(10)
+ * Setting a logger instance (or one of its streams) to a particular level 
+ * implies that all log records at that level and above are logged. 
+ * E.g. a logger set to level "info" will log records at level info 
+ * and above (warn, error, fatal).
  */
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    (env === 'development' ? 
-      winston.format.colorize({all: true}) : winston.format.json()),
-    winston.format.timestamp({
-      format: 'DD-MM-YYYY HH:mm:ss'
-    }),
-    winston.format.align(),
-    winston.format.printf((info) => {
-      const {
-        timestamp, level, message, ...args
-      } = info;
-      let object = '';
-      if (Object.keys(args).length > 0) {
-        object = JSON.stringify(args);
-      }
-      return `${timestamp} [${level}]: ${message} ${object}`;
-    })
-  ),
-  transports: [logTransport],
-  exitOnError: false
+const logger = bunyan.createLogger({
+  name: 'SellMyServices',
+  streams,
+  serializers: bunyan.stdSerializers
 });
 
 module.exports = logger;

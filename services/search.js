@@ -10,7 +10,7 @@ module.exports = {
       const fullTextSearchQuery = 
           `MATCH (services.name, tags) AGAINST ("'${searchText}'")`;
 
-      models.seller.findAll({
+      models.user.findAll({
         where: {
           latitude: {
             [Op.between]: latitudeRange
@@ -25,16 +25,16 @@ module.exports = {
         include: [
           {
             // using alias to make sure fullTextSearchQuery doesn't break
-            // as column 'name' is available in both tables (seller, service)
+            // as column 'name' is available in both tables (user, service)
             model: models.service,
             attributes: ['id', 'name'],
             as: 'services', 
             where: Sequelize.literal(fullTextSearchQuery)
           }
         ]
-      }).then((sellers) => {
-        if (sellers.length > 0) {
-          const result = sellers.map(seller => seller.dataValues);
+      }).then((users) => {
+        if (users.length > 0) {
+          const result = users.map(user => user.dataValues);
           resolve(result);
         } else {
           resolve([]);

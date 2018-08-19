@@ -2,13 +2,13 @@ const models = require('../../models');
 
 module.exports = {
 
-  doesSuchSellerExist: (email) => {
+  doesSuchUserExist: (email) => {
     return new Promise((resolve) => {
       const where = { email };
 			
-      models.seller.findOne({ where }).then(seller => {
-        if (seller) {
-          resolve(seller);
+      models.user.findOne({ where }).then(user => {
+        if (user) {
+          resolve(user);
         } else {
           resolve(false);
         }

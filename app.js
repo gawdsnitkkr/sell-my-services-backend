@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
  */
 const indexRoutes = require('./routes/index');
 const searchRoutes = require('./routes/search');
-const sellerRoutes = require('./routes/seller');
+const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth/');
 
 // middleware
@@ -43,7 +43,7 @@ app.use(middlewares.logRequest);
  */
 app.use('/', indexRoutes);
 app.use('/search', searchRoutes);
-app.use('/sellers', sellerRoutes);
+app.use('/users', userRoutes);
 
 // token authentication in routes
 app.use(authRoutes);
