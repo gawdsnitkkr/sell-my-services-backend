@@ -8,7 +8,9 @@ const serviceController = require('../../controllers/service');
 router.post('/services', requireParameters(['name']), (req, res) => {
   const params = req.body;
   params.sellerId = req.decoded.id;
-  params.sellerEmail = req.decoded.email;
+
+  // email is userEmail and sellerEmail because now user is acting as seller
+  params.email = req.decoded.email;
 
   serviceController.createService(params)
     .then(([service, responseCode]) => { 

@@ -9,7 +9,7 @@ module.exports = {
 
   createService: (params) => {
     return new Promise((resolve, reject) => {
-      doesSuchUserExist(params.sellerEmail)
+      doesSuchUserExist(params.email)
         .then(result => {
           if (result) {
             serviceService.createService(params)
