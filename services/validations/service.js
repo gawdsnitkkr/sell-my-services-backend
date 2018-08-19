@@ -12,13 +12,13 @@ module.exports = {
         where: condition,
         include: [
           {
-            model: models.seller,
+            model: models.user,
             attributes: ['email']
           }
         ]
       }).then((service) => {
         if (service) {
-          if (service.seller.email === email) {
+          if (service.user.email === email) {
             resolve(service);
           } else {
             resolve(false);

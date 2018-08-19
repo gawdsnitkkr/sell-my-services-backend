@@ -3,13 +3,13 @@ const statusCode = require('../constants/statusCode');
 const logger = require('../modules/logger');
 
 const { doesSuchServiceExist } = require('../services/validations/service');
-const { doesSuchSellerExist } = require('../services/validations/seller');
+const { doesSuchUserExist } = require('../services/validations/user');
 
 module.exports = {
 
   createService: (params) => {
     return new Promise((resolve, reject) => {
-      doesSuchSellerExist(params.sellerEmail)
+      doesSuchUserExist(params.email)
         .then(result => {
           if (result) {
             serviceService.createService(params)
@@ -30,7 +30,7 @@ module.exports = {
           }
         }).catch(err => {
           logger.error(
-            'controller doesSuchSellerExist createService:', err
+            'controller doesSuchUserExist createService:', err
           );
           return reject([
             'Server side error', statusCode.INTERNAL_SERVER_ERROR

@@ -10,11 +10,11 @@ module.exports = {
     });
   },
 
-  // get all services of a given seller
-  getServices: (sellerId) => {
+  // get all services of a given user
+  getServices: (userId) => {
     return new Promise((resolve) => {
       models.service.findAll({
-        where: { sellerId }
+        where: { userId }
       }).then(services => {
         if (services.length > 0) {
           const records = [];

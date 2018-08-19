@@ -10,7 +10,6 @@ module.exports = {
     'longitudeThreshold': 0.3,
     'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
     'tokenName': 'authToken',
-    'logLevel': 'debug',
     'googleSigninClientId': '',
     'bcryptSaltRounds': 2
   },
@@ -25,7 +24,6 @@ module.exports = {
     'longitudeThreshold': 0.3,
     'tokenMaxAge': 30 * 24 * 60 * 60, // 30 days
     'tokenName': 'authToken',
-    'logLevel': 'debug',
     'googleSigninClientId': '',
     'bcryptSaltRounds': 2
   }
