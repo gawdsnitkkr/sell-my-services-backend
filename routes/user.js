@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
 router.put('/:id', verifyToken, (req, res) => {
   const params = {
     ...req.body,
-    id: req.params.id,
+    id: parseInt(req.params.id),
     decodedId: req.decoded.id,
     email: req.decoded.email
   };
