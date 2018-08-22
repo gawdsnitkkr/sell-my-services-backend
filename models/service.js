@@ -49,6 +49,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     timestamp: true,
