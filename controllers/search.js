@@ -9,7 +9,7 @@ const { swapValues } = require('./utility');
 
 module.exports = {
 
-  searchSellers: (params) => {
+  searchServices: (params) => {
     return new Promise((resolve, reject) => {
       const { latitude, longitude, searchText } = params;
 
@@ -34,15 +34,16 @@ module.exports = {
         longitudeRange = swapValues(longitudeRange);
       }
 
-      searchService.searchSellers({ latitudeRange, longitudeRange, searchText })
-        .then((sellers) => {
-          return resolve([sellers, statusCode.OK]);
-        }).catch((err) => {
-          logger.error('controllers searchSellers', err);
-          return reject([
-            'Server side error', statusCode.INTERNAL_SERVER_ERROR
-          ]);
-        });
+      searchService.searchServices({ 
+        latitudeRange, longitudeRange, searchText 
+      }).then((services) => {
+        return resolve([services, statusCode.OK]);
+      }).catch((err) => {
+        logger.error('controllers searchServices', err);
+        return reject([
+          'Server side error', statusCode.INTERNAL_SERVER_ERROR
+        ]);
+      });
     });
   }
 };

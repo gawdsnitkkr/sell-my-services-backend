@@ -6,22 +6,22 @@ const logger = require('../modules/logger');
 const searchController = require('../controllers/search');
 
 
-const requiredSellersParams = 
+const requiredServicesParams = 
     requireParameters(['longitude', 'latitude', 'searchText']);
     
-router.get('/sellers', requiredSellersParams, (req, res) => {
+router.get('/services', requiredServicesParams, (req, res) => {
   const params = req.query;
-  searchController.searchSellers(params)
-    .then(([sellers, responseCode]) => { 
+  searchController.searchServices(params)
+    .then(([services, responseCode]) => { 
       res.status(responseCode);
       res.json({
         success: true,
-        result: sellers
+        result: services
       });
     }).catch(([err, responseCode]) => {
       if (typeof(err) !== 'string') {
         res.status(responseCode);
-        logger.error('routes /search/sellers', err); // todo: err is not getting printed
+        logger.error('routes /search/services', err); 
         err = 'Server side error';
       } 
       res.json({
