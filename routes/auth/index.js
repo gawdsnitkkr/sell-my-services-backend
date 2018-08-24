@@ -5,6 +5,6 @@ const { verifyToken } = require('../../middlewares');
 
 const serviceRoutes = require('./service');
 
-router.use('/services', verifyToken, serviceRoutes);
+router.use('/auth', verifyToken, serviceRoutes);
 
 module.exports = router;

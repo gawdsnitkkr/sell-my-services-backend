@@ -13,7 +13,7 @@ router.post('/services', requireParameters(['name']), (req, res) => {
   params.email = req.decoded.email;
 
   serviceController.createService(params)
-    .then(([service, responseCode]) => { 
+    .then(([service, responseCode]) => {
       res.status(responseCode)
         .json({
           success: true,

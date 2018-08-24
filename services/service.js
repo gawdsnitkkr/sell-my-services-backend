@@ -3,9 +3,11 @@ const models = require('../models');
 module.exports = {
 
   createService: (service) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       models.service.create(service).then(service => {
         resolve(service.dataValues);
+      }).catch(err => {
+        reject(err);
       });
     });
   },

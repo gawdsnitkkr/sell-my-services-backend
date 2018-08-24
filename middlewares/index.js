@@ -62,11 +62,6 @@ module.exports = {
 
           // if everything is good, save to request for use in other routes
           req.decoded = decoded; 
-
-          // so that entity can perform database operations (RUD) 
-          // only on his data
-          req.body.email = decoded.email;
-          req.body.id = decoded.id;
           next();
         }
       });

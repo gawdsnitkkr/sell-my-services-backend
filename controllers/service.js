@@ -14,7 +14,7 @@ module.exports = {
           if (result) {
             serviceService.createService(params)
               .then((service) => {
-                return resolve([service.dataValues, statusCode.OK]);
+                return resolve([service, statusCode.OK]);
               }).catch((err) => {
                 logger.error(
                   'controller createService', err
