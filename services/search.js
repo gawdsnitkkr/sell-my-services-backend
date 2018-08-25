@@ -22,7 +22,7 @@ module.exports = {
         include: [
           {
             model: models.user,
-            attributes: ['id', 'firstName', 'email'],
+            attributes: ['id', 'firstName', 'email', 'mobile'],
             where: Sequelize.literal(fullTextSearchQuery)
           }
         ]
