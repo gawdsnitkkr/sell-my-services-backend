@@ -7,10 +7,10 @@ const serviceController = require('../../controllers/service');
 
 router.post('/services', requireParameters(['name']), (req, res) => {
   const params = req.body;
-  params.sellerId = req.decoded.id;
+  params.userId = req.decoded.id;
 
   // email is userEmail and sellerEmail because now user is acting as seller
-  params.email = req.decoded.email;
+  params.userEmail = req.decoded.email;
 
   serviceController.createService(params)
     .then(([service, responseCode]) => {
@@ -32,19 +32,46 @@ router.post('/services', requireParameters(['name']), (req, res) => {
     });
 });
 
-// get all or one service of seller
+// get all services of seller
 router.get('/services', (req, res) => {
   const params = {
-    sellerId: req.decoded.id,
-    sellerEmail: req.decoded.email
+    userId: req.decoded.id,
+    userEmail: req.decoded.email
   };
-  params.id = req.query.id;
+  
   serviceController.getServices(params)
     .then(([services, responseCode]) => { 
       res.status(responseCode)
         .json({
           success: true,
-          result: services // might be object or array depending upon whether params.id is present
+          result: services // array
+        });
+    }).catch(([err, responseCode]) => {
+      res.status(responseCode);
+      if (typeof(err) !== 'string') {
+        logger.error('routes /auth/services GET', err);
+        err = 'Server side error';
+      }
+      res.json({
+        success: false,
+        message: err
+      });
+    });
+});
+
+router.get('/services/:id', (req, res) => {
+  const params = {
+    userId: req.decoded.id,
+    userEmail: req.decoded.email,
+    id: req.query.id // serviceId
+  };
+  
+  serviceController.getService(params)
+    .then(([service, responseCode]) => { 
+      res.status(responseCode)
+        .json({
+          success: true,
+          result: service // object
         });
     }).catch(([err, responseCode]) => {
       res.status(responseCode);
@@ -63,8 +90,9 @@ router.get('/services', (req, res) => {
 // Update seller service
 router.put('/services', requireParameters(['id']), (req, res) => {
   const params = req.body;
-  params.sellerId = req.decoded.id;
-  params.sellerEmail = req.decoded.email;
+  params.userId = req.decoded.id;
+  params.userEmail = req.decoded.email;
+
   serviceController.updateService(params)
     .then(([service, responseCode]) => { 
       res.status(responseCode)

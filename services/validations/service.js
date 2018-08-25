@@ -2,7 +2,7 @@ const models = require('../../models');
 
 module.exports = {
 
-  doesSuchServiceExist: ({ serviceId, email  }) => {
+  doesSuchServiceExist: (serviceId, userEmail) => {
     return new Promise((resolve) => {
       const condition = {
         id: serviceId
@@ -18,7 +18,7 @@ module.exports = {
         ]
       }).then((service) => {
         if (service) {
-          if (service.user.email === email) {
+          if (service.user.email === userEmail) {
             resolve(service);
           } else {
             resolve(false);
