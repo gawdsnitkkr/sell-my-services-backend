@@ -10,7 +10,7 @@ router.post('/services', requireParameters(['name']), (req, res) => {
   params.userId = req.decoded.id;
 
   // email is userEmail and sellerEmail because now user is acting as seller
-  params.userEmail = req.decoded.email;
+  params.email = req.decoded.email;
 
   serviceController.createService(params)
     .then(([service, responseCode]) => {
@@ -36,7 +36,7 @@ router.post('/services', requireParameters(['name']), (req, res) => {
 router.get('/services', (req, res) => {
   const params = {
     userId: req.decoded.id,
-    userEmail: req.decoded.email
+    email: req.decoded.email
   };
   
   serviceController.getServices(params)
@@ -62,7 +62,7 @@ router.get('/services', (req, res) => {
 router.get('/services/:id', (req, res) => {
   const params = {
     userId: req.decoded.id,
-    userEmail: req.decoded.email,
+    email: req.decoded.email,
     id: req.query.id // serviceId
   };
   
@@ -91,7 +91,7 @@ router.get('/services/:id', (req, res) => {
 router.put('/services', requireParameters(['id']), (req, res) => {
   const params = req.body;
   params.userId = req.decoded.id;
-  params.userEmail = req.decoded.email;
+  params.email = req.decoded.email;
 
   serviceController.updateService(params)
     .then(([service, responseCode]) => { 

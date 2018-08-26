@@ -9,7 +9,7 @@ module.exports = {
 
   createService: (params) => {
     return new Promise((resolve, reject) => {
-      doesSuchUserExist(params.userEmail)
+      doesSuchUserExist(params.email)
         .then(result => {
           if (result) {
             serviceService.createService(params)
@@ -44,9 +44,9 @@ module.exports = {
    */
   getServices: (params) => {
     return new Promise((resolve, reject) => {
-      const { userId, userEmail } = params;
+      const { userId, email } = params;
 
-      doesSuchUserExist(userEmail)
+      doesSuchUserExist(email)
         .then(result => {
           if (result) {
             serviceService.getServices(userId)
@@ -80,9 +80,9 @@ module.exports = {
   // fetch one service
   getService: (params) => {
     return new Promise((resolve, reject) => {
-      const { id, userEmail } = params;
+      const { id, email } = params;
 
-      doesSuchServiceExist(id, userEmail)
+      doesSuchServiceExist(id, email)
         .then((service) => {
           if (service) {
             return resolve([service.dataValues, statusCode.OK]);
@@ -104,8 +104,8 @@ module.exports = {
 
   updateService: (params) => {
     return new Promise((resolve, reject) => {
-      const { id, userEmail } = params;
-      doesSuchServiceExist(id, userEmail)
+      const { id, email } = params;
+      doesSuchServiceExist(id, email)
         .then((service) => {
           if (service) {
             service.updateAttributes(params)
