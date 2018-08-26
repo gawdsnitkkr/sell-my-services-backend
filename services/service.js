@@ -14,7 +14,7 @@ module.exports = {
 
   // get all services of a given user
   getServices: (userId) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       models.service.findAll({
         where: { userId }
       }).then(services => {
@@ -27,6 +27,8 @@ module.exports = {
         } else {
           resolve([]);
         }
+      }).catch(err => {
+        reject(err);
       });
     });
   }

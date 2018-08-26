@@ -26,7 +26,7 @@ module.exports = {
           } else { 
             return reject([
               'No such seller exists', statusCode.BAD_REQUEST
-            ]);           
+            ]);    
           }
         }).catch(err => {
           logger.error(
@@ -40,50 +40,72 @@ module.exports = {
   },
 
   /**
-   * if params.id is present then fetch single service
-   * else fetch all services of given seller
+   * fetch all services of given seller
    */
   getServices: (params) => {
     return new Promise((resolve, reject) => {
-      const { id, sellerEmail, sellerId } = params;
-      if (id) {
-        doesSuchServiceExist(id, sellerEmail)
-          .then((service) => {
-            if (service) {
-              return resolve([service.dataValues, statusCode.OK]);
-            } else {
-              return reject([
-                'No such service exists', statusCode.BAD_REQUEST
-              ]);
-            }
-          }).catch((err) => {
-            logger.error(
-              'controller doesSuchServiceExist getService', err
-            );
+      const { userId, email } = params;
+
+      doesSuchUserExist(email)
+        .then(result => {
+          if (result) {
+            serviceService.getServices(userId)
+              .then((services) => {
+                return resolve([services, statusCode.OK]);
+              }).catch((err) => {
+                logger.error(
+                  'controller serviceService getServices', err
+                );
+                return reject([
+                  'Server side error', statusCode.INTERNAL_SERVER_ERROR
+                ]);
+              });
+          } else {
             return reject([
-              'Server side error', statusCode.INTERNAL_SERVER_ERROR
-            ]);
-          });
-      } else {
-        serviceService.getServices(sellerId)
-          .then((services) => {
-            return resolve([services, statusCode.OK]);
-          }).catch((err) => {
-            logger.error(
-              'controller serviceService getServices', err
-            );
+              'No such seller exists', statusCode.BAD_REQUEST
+            ]);        
+          }
+        }).catch(err => {
+          logger.error(
+            'controller doesSuchUserExist getServices:', err
+          );
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
+        });
+
+    });
+  },
+
+  // fetch one service
+  getService: (params) => {
+    return new Promise((resolve, reject) => {
+      const { id, email } = params;
+
+      doesSuchServiceExist(id, email)
+        .then((service) => {
+          if (service) {
+            return resolve([service.dataValues, statusCode.OK]);
+          } else {
             return reject([
-              'Server side error', statusCode.INTERNAL_SERVER_ERROR
+              'No such service exists', statusCode.BAD_REQUEST
             ]);
-          });
-      }
+          }
+        }).catch((err) => {
+          logger.error(
+            'controller doesSuchServiceExist getService', err
+          );
+          return reject([
+            'Server side error', statusCode.INTERNAL_SERVER_ERROR
+          ]);
+        });
     });
   },
 
   updateService: (params) => {
     return new Promise((resolve, reject) => {
-      const { id, sellerEmail } = params;
-      doesSuchServiceExist(id, sellerEmail)
+      const { id, email } = params;
+      doesSuchServiceExist(id, email)
         .then((service) => {
           if (service) {
             service.updateAttributes(params)
