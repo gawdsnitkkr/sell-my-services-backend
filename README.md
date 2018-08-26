@@ -1,17 +1,24 @@
 ## sell-my-services
 
-We help people to offer their services to others easily and quickly. SellMyServices is a platform where a seller can publish his
-services. These services then can be searched by seekers in their nearby locations. 
+An open source local services search tool. This is the backend repository of https://sellmyservices.in.
+To know more about product please check android repository https://github.com/gawdsnitkkr/sell-my-services-android
 
-#### How does it work?
+### Android app link
+[![Android App](./screenshots/google-play.png)](https://play.google.com/store/apps/details?id=me.varunon9.sellmyservices)
 
-1. A seller is a person who offers some service e.g. Photographer, Carpenter, Cook, Teacher, Doctor, Freelancer etc.
-2. Seller register his services on our platform.
-3. A seeker is a person who is in search of some service(s) e.g. a person looking to hire cook.
-4. Seekers search services on our platform.
-5. SellMyServices list all the nearby sellers who are offering services searched by seeker. 
-6. Seeker then can browser seller's services, their ratings, location etc and if interested can directly chat to sellers.
-7. After availing a service, a seeker can share feedback and rating to corresponding seller on our platform.
+#### The core idea
+
+SellMyServices is a platform to match `service seekers` to `service sellers`. A normal flow is-
+
+1. User installs our [Android app](https://play.google.com/store/apps/details?id=me.varunon9.sellmyservices)
+2. In the App he searches for some services. Let's say he is looking for a `freelancer`.
+3. All the `freelancers` active in his nearby area (range 50 KM) would be populated on google map.
+4. He can browse individual search results and check their description, ratings, location etc.
+5. He can contact them if interested via email/mobile/chat for a deal.
+6. A few days later - after having freelancing service, he can submit feedback or rate that service on our platform.
+
+#### Demo video-
+https://youtu.be/cio7xAiRjGE
 
 #### How to setup project
 
@@ -22,6 +29,13 @@ services. These services then can be searched by seekers in their nearby locatio
 5. In MySql create a database "sellMyServices" (or with any other name but must be mentioned in config.js)
 6. Update `username` with your MySql username and `password` with your MySql password in config.js 
 7. start the project from project root directory `node bin/www` or `nodemon`
+8. To setup android part visit https://github.com/gawdsnitkkr/sell-my-services-android
+
+### Wiki page
+https://github.com/gawdsnitkkr/sell-my-services-backend/wiki/
+
+### Releases
+https://github.com/gawdsnitkkr/sell-my-services-backend/releases
 
 ### [Contributing Guidelines](CONTRIBUTING.md)
 
