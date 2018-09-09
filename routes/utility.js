@@ -19,5 +19,21 @@ module.exports = {
     });
 
     return token;
+  },
+
+  isUserAgentMobile: (userAgent) => {
+    let isMobile = false;
+
+    // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+      isMobile = true;
+    } else if (/android/i.test(userAgent)) {
+      isMobile = true;
+    } else if (/iPad|iPhone|iPod/.test(userAgent)) {
+      isMobile = true;
+    }
+
+    return isMobile;
+
   }
 };
