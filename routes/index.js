@@ -6,11 +6,19 @@ const config = require('../config/config.js')[env];
 
 const { requireParameters } = require('../middlewares');
 const logger = require('../modules/logger');
-const { getToken } = require('./utility');
+const { getToken, isUserAgentMobile } = require('./utility');
 const userController = require('../controllers/user');
 
 router.get('/', (req, res ) => {
-  res.render('index');
+  // redirect to google play if visited via mobile
+  const userAgent = req.get('User-Agent');
+  if (isUserAgentMobile(userAgent)) {
+    res.redirect(
+      'https://play.google.com/store/apps/details?id=me.varunon9.sellmyservices'
+    );
+  } else {
+    res.render('index');
+  }
 });
 
 const requiredGoogleSigninParams = 
